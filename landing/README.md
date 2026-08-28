@@ -21,8 +21,9 @@ npm audit --omit=dev
 ```
 
 `build:pages` writes a privacy-reviewed artifact to `dist/pages`. It publishes
-only the approved fictional product plates, not source captures or historical
-marketing images. Pushes to `main` deploy that artifact through
+only explicitly allowlisted public rasters: the app artwork, the social card,
+and the fictional product illustration icon. It never publishes source captures
+or historical marketing images. Pushes to `main` deploy that artifact through
 `.github/workflows/pages.yml` in the parent release repository.
 
 Product and release facts should remain aligned with the parent release

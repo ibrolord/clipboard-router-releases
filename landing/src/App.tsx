@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
+import { ActionsPane, ProtectionPane, RetrievalPane, WorkspaceWindow } from './Product'
 
 const APP = {
   version: '0.1.0',
@@ -95,7 +96,9 @@ function Reveal({
           observer.disconnect()
         }
       },
-      { threshold: 0.25 },
+      // A composition can be taller than the viewport, in which case it can
+      // never reach a fractional ratio — settle as soon as any of it lands.
+      { threshold: 0 },
     )
     observer.observe(node)
     return () => observer.disconnect()
@@ -203,71 +206,25 @@ function CopyButton({ value, label, describes }: { value: string; label: string;
 }
 
 /**
- * A single cropped detail plate from the privacy-safe real SwiftUI capture harness.
+ * A product composition drawn in DOM and CSS rather than pasted in as a
+ * raster crop (see Product.tsx).
  *
- * Desktop and mobile sources are different crops. A <picture> with a
- * matching <source> lets the browser resolve and fetch only the one
- * source that applies to the current viewport, instead of downloading
- * both. CSS sizes the resulting <img> per breakpoint exactly as before.
+ * The drawing itself is decorative markup — dozens of nested spans that a
+ * screen reader would otherwise read out as loose prose — so it is hidden
+ * from the accessibility tree and described once, in a sentence, by the
+ * caption. Anything the caption states is also stated in the section copy
+ * beside it, so nothing is available only to sighted readers.
  */
-type PlateProps = {
-  src: string
-  alt: string
-  width: number
-  height: number
-  className: string
-  priority?: boolean
-} & (
-  | { mobileSrc?: undefined; mobileWidth?: undefined; mobileHeight?: undefined }
-  | { mobileSrc: string; mobileWidth: number; mobileHeight: number }
-)
-
-function Plate({
-  src,
-  mobileSrc,
-  mobileWidth,
-  mobileHeight,
-  alt,
-  width,
-  height,
-  className,
-  priority = false,
-}: PlateProps) {
-  const loading = priority ? 'eager' : 'lazy'
-  const fetchPriority = priority ? 'high' : 'auto'
-
-  const img = (
-    <img
-      src={src}
-      alt={alt}
-      width={width}
-      height={height}
-      decoding="async"
-      loading={loading}
-      fetchPriority={fetchPriority}
-    />
-  )
-
-  if (!mobileSrc) {
-    return <span className={className}>{img}</span>
-  }
-
+function Figure({ className, caption, children }: { className: string; caption: string; children: ReactNode }) {
   return (
-    <span className={className}>
-      <picture>
-        <source
-          media="(max-width: 833px)"
-          srcSet={mobileSrc}
-          width={mobileWidth}
-          height={mobileHeight}
-        />
-        {img}
-      </picture>
-    </span>
+    <figure className={className}>
+      <div className="ui" aria-hidden="true">
+        {children}
+      </div>
+      <figcaption className="sr-only">{caption}</figcaption>
+    </figure>
   )
 }
-
-/* ------------------------------------------------------------------ */
 
 /* ------------------------------------------------------------------ */
 
@@ -418,18 +375,13 @@ function Hero() {
           </p>
         </div>
 
-        <Reveal className="hero-stage">
-          <Plate
-            className="plate plate-hero"
-            src={asset('product/plate-hero.png')}
-            mobileSrc={asset('product/plate-hero-mobile.png')}
-            mobileWidth={850}
-            mobileHeight={754}
-            alt="Clipboard Router's real dark-mode History view with fictional clips from Notes, Safari, Terminal, and Xcode."
-            width={1299}
-            height={812}
-            priority
-          />
+        <Reveal className="hero-media">
+          <Figure
+            className="stage stage-hero"
+            caption="An illustration of the Clipboard Router window: a sidebar holding History, Browse, Saved, Notes, Pinned Saved, iCloud Sync, Projects, Actions, Auto Organize, Clipboard Health, Vault, and Private Session, next to a searchable History list of example clips captured from Notes, Safari, Terminal, and Xcode."
+          >
+            <WorkspaceWindow />
+          </Figure>
         </Reveal>
       </div>
     </section>
@@ -494,24 +446,13 @@ function App() {
                 for constantly, and keep a search you trust as a Smart View.
               </p>
             </Reveal>
-            <Reveal className="chapter-media history-figure" delay={90}>
-              <Plate
-                className="plate plate-history-list"
-                src={asset('product/plate-history-list.png')}
-                alt="A searchable local History of fictional notes, links, commands, and code rendered by the real Clipboard Router interface."
-                width={670}
-                height={840}
-              />
-              <Plate
-                className="plate plate-history-sidebar"
-                mobileSrc={asset('product/plate-history-sidebar-mobile.png')}
-                mobileWidth={440}
-                mobileHeight={422}
-                src={asset('product/plate-history-sidebar.png')}
-                alt="The real Clipboard Router sidebar with Saved, Notes, Actions, Auto Organize, Clipboard Health, Vault, and Private Session."
-                width={440}
-                height={850}
-              />
+            <Reveal className="chapter-media" delay={90}>
+              <Figure
+                className="stage"
+                caption="A closer view of the same example workspace: a search for “release notes” narrows History to three of twelve clips, and the selected one is shown promoted into Saved with a note explaining why it was kept and a Launch 1.2 project tag."
+              >
+                <RetrievalPane />
+              </Figure>
             </Reveal>
           </div>
         </section>
@@ -519,29 +460,13 @@ function App() {
         {/* 2 — Reviewable workflows */}
         <section id="actions" className="chapter chapter-tint" aria-labelledby="actions-title">
           <div className="shell-wide chapter-grid chapter-grid-flip">
-            <Reveal className="chapter-media chapter-media-left actions-figure">
-              <Plate
-                className="plate plate-actions-control"
-                mobileSrc={asset('product/plate-actions-control-mobile.png')}
-                mobileWidth={874}
-                mobileHeight={883}
-                src={asset('product/plate-actions-control.png')}
-                alt="The real Actions workspace with a fictional review-and-file action, one-click destinations, and run-safety controls."
-                width={1250}
-                height={680}
-              />
-              <Plate
-                className="plate plate-actions-safety"
-                src={asset('product/plate-actions-safety.png')}
-                alt="The Actions safety rules stating that scripts, arbitrary webhooks, and automatic sends are not allowed."
-                width={1212}
-                height={240}
-              />
-              <ul className="actions-safety-text">
-                <li>No scripts or arbitrary webhooks.</li>
-                <li>Folder triggers never run from sync.</li>
-                <li>Vault or Private Session content cannot run actions.</li>
-              </ul>
+            <Reveal className="chapter-media chapter-media-left">
+              <Figure
+                className="stage"
+                caption="A closer view of one example automation from the same workspace, named “Review and file product notes”: two steps that clean the clip and file it into the Launch 1.2 project, a result waiting for you to paste and send, and the safety rules that no scripts, arbitrary webhooks, or automatic sends are allowed, that folder triggers never run from sync and queue external steps for review, and that Vault and Private Session content can never run an action."
+              >
+                <ActionsPane />
+              </Figure>
             </Reveal>
             <Reveal className="chapter-copy" delay={90}>
               <h2 id="actions-title">Automate the work that starts with copy and paste.</h2>
@@ -582,34 +507,13 @@ function App() {
                 can decode it.
               </p>
             </Reveal>
-            <Reveal className="chapter-media protection-figure" delay={90}>
-              <Plate
-                className="plate plate-privacy-switch"
-                src={asset('product/plate-privacy-switch.png')}
-                alt="The real active Private Session controls in the Clipboard Router sidebar."
-                width={440}
-                height={180}
-              />
-              <Plate
-                className="plate plate-privacy-empty"
-                mobileSrc={asset('product/plate-privacy-empty-mobile.png')}
-                mobileWidth={773}
-                mobileHeight={405}
-                src={asset('product/plate-privacy-empty.png')}
-                alt="Private Session is active: new clips stay only in memory and disappear when the session ends."
-                width={1200}
-                height={650}
-              />
-              <Plate
-                className="plate plate-privacy-toast"
-                mobileSrc={asset('product/plate-privacy-toast-mobile.png')}
-                mobileWidth={1100}
-                mobileHeight={110}
-                src={asset('product/plate-privacy-toast.png')}
-                alt="Confirmation toast: Private Session started, nothing will be saved."
-                width={1100}
-                height={120}
-              />
+            <Reveal className="chapter-media" delay={90}>
+              <Figure
+                className="stage"
+                caption="A closer view of the two protections in the same example workspace: an active Private Session that is recording nothing, holding new clips in memory only until you end it, and a Vault holding two encrypted clips whose contents stay hidden until you authenticate."
+              >
+                <ProtectionPane />
+              </Figure>
             </Reveal>
           </div>
         </section>

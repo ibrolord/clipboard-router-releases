@@ -217,141 +217,570 @@ h3 {
 }
 .nav-panel a:last-child { border-bottom: 0; color: var(--blue); }
 
-/* Real Retina pixels, cropped into detail plates and bled off an edge —
-   never a floating full window, never shown at less than native density
-   halved to CSS pixels. See design/art-direction.md. */
+/* ==========================================================================
+   Product imagery
+   Every view of the app on this page is drawn in DOM and CSS from the one
+   token scale below — never a raster crop, never transform-scaled. That is
+   what makes the hero and the three close-ups read as one workspace: they
+   are literally the same components at the same size, framed differently.
+   ========================================================================== */
 
-.plate {
-  display: block;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+.ui {
+  --ui-bg: #1b1b1e;
+  --ui-chrome: #26262a;
+  --ui-side: #1f1f22;
+  --ui-line: rgba(255, 255, 255, 0.09);
+  --ui-line-soft: rgba(255, 255, 255, 0.055);
+  --ui-fill: rgba(255, 255, 255, 0.055);
+  --ui-fill-strong: rgba(255, 255, 255, 0.1);
+  --ui-ink: #f2f2f4;
+  --ui-ink-2: #a8a8ad;
+  --ui-ink-3: #7c7c83;
+  --ui-blue: #3f9dff;
+  --ui-green: #37cf5e;
+  --ui-violet: #9490ff;
+  --ui-r: 12px;
+
+  /* Pinned to the UI text face so the composition never inherits the
+     page's display face, and sized once: nothing inside re-scales. */
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", "Segoe UI", Roboto, system-ui, sans-serif;
+  font-size: 13px;
+  line-height: 1.35;
+  letter-spacing: -0.005em;
+  color: var(--ui-ink);
+  text-align: left;
 }
-.plate picture { display: block; }
-.plate img { display: block; width: 100%; height: auto; }
 
-/* ---- Hero: H1, cut on the right and bottom against a plain mid-tone stage ---- */
+.ui-icon {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.35;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
 
-.hero-stage {
-  position: relative;
+/* ---- Window ---- */
+
+.ui-window {
+  border: 1px solid var(--ui-line);
+  border-radius: 14px;
+  background: var(--ui-bg);
   overflow: hidden;
-  border-radius: 20px 20px 0 0;
-  background: #141416;
-  aspect-ratio: 1299 / 740;
-}
-.plate-hero {
-  border: none;
-  height: 100%;
-}
-.plate-hero img {
-  width: 112%;
-  max-width: none;
-  height: 100%;
-  object-fit: cover;
-  object-position: top left;
+  box-shadow: 0 24px 60px -22px rgba(0, 0, 0, 0.75);
 }
 
-/* Below ~1024px the hero column shrinks fast enough that the 1299px source
-   loses true Retina density. Floor the stage at half the source width
-   (649.5px) so the image never renders below native density; the stage's
-   own overflow: hidden clips whatever the split layout can't fit. */
-@media (min-width: 834px) {
-  .hero-stage { min-width: 649.5px; }
+.ui-titlebar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 14px;
+  background: var(--ui-chrome);
+  border-bottom: 1px solid var(--ui-line-soft);
+}
+.ui-lights { display: flex; gap: 6px; }
+.ui-lights i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ff5f57;
+}
+.ui-lights i:nth-child(2) { background: #febc2e; }
+.ui-lights i:nth-child(3) { background: #28c840; }
+.ui-title {
+  position: absolute;
+  inset-inline: 0;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ui-ink-2);
 }
 
-/* ---- History: R1 + R2, offset two-column figure on a mid-tone stage,
-   deliberately cut through the stage's bottom edge ---- */
+.ui-body { display: flex; align-items: stretch; }
 
-.history-figure {
+/* ---- Sidebar ---- */
+
+.ui-sidebar {
+  flex: 0 0 194px;
+  width: 194px;
+  padding: 14px 10px 16px;
+  background: var(--ui-side);
+  border-right: 1px solid var(--ui-line-soft);
+}
+.ui-group + .ui-group { margin-top: 16px; }
+.ui-group-label {
+  padding: 0 8px 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ui-ink-3);
+}
+.ui-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  padding: 6px 8px;
+  border-radius: 7px;
+  color: var(--ui-ink-2);
+}
+.ui-item-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ui-item[data-active='true'] {
+  background: var(--ui-fill-strong);
+  color: var(--ui-ink);
+  font-weight: 500;
+}
+.ui-badge {
+  margin-left: auto;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  color: var(--ui-ink-3);
+}
+.ui-group-footer {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--ui-line-soft);
+}
+.ui-item-private { color: var(--ui-violet); }
+.ui-item-private .ui-switch { margin-left: auto; }
+
+/* ---- Switch ---- */
+
+.ui-switch {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 15px;
+  border-radius: 999px;
+  background: var(--ui-fill-strong);
+  position: relative;
+}
+.ui-switch::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #e8e8ea;
+}
+.ui-switch[data-on='true'] { background: var(--ui-green); }
+.ui-switch[data-on='true'][data-tone='violet'] { background: var(--ui-violet); }
+.ui-switch[data-on='true']::after { left: 13px; background: #fff; }
+
+/* ---- Main pane ---- */
+
+.ui-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 16px 16px 0;
+}
+.ui-main-head {
   display: flex;
   align-items: flex-start;
-  gap: 24px;
-  overflow: hidden;
-  background: #141416;
-  border-radius: 16px 16px 0 0;
-  padding: 32px 32px 0;
+  gap: 16px;
+  padding-bottom: 14px;
 }
-/* Natural half-density heights: 670x840 and 440x850 sources rendered at
-   335px/220px CSS width. Forcing a shorter box and cropping with
-   object-fit: cover hid the evidence this section exists to show — the
-   tenth history row and the lower Keep items — so height now simply
-   follows width at the source's own aspect ratio. */
-.plate-history-list {
-  width: 335px;
-  height: 420px;
-  flex: 0 0 auto;
-  border: none;
+.ui-h { font-size: 19px; font-weight: 700; letter-spacing: -0.015em; }
+.ui-h-sm { font-size: 14px; font-weight: 650; letter-spacing: -0.01em; display: flex; align-items: center; gap: 7px; }
+.ui-sub { margin-top: 2px; font-size: 12px; color: var(--ui-ink-3); }
+.ui-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: var(--ui-fill);
+  font-size: 12px;
+  color: var(--ui-ink-2);
+  white-space: nowrap;
 }
-.plate-history-sidebar {
-  width: 220px;
-  height: 425px;
-  flex: 0 0 auto;
-  margin-top: 80px;
-  border: none;
-}
+.ui-pill .ui-icon { width: 12px; height: 12px; }
 
-/* ---- Actions: A1 control surface + A2 safety strip beneath it ---- */
+.ui-main-tools { padding-bottom: 12px; }
 
-.actions-figure {
+/* ---- Search ---- */
+
+.ui-search {
   display: flex;
-  flex-direction: column;
-  gap: 32px;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 7px 11px;
+  border-radius: 9px;
+  background: var(--ui-fill);
+  border: 1px solid var(--ui-line-soft);
+  color: var(--ui-ink-3);
+}
+.ui-search-query {
+  min-width: 0;
   overflow: hidden;
-  background: #141416;
-  border-radius: 16px;
-  padding: 32px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ui-ink);
 }
-.plate-actions-control {
-  width: 625px;
-  max-width: none;
-  border-radius: 14px;
-  border-right: none;
-  background: #141416;
+.ui-search-hint {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.plate-actions-safety {
-  width: 625px;
-  max-width: none;
-  border-radius: 14px;
-  border-right: none;
-  background: #141416;
+.ui-caret {
+  width: 1.5px;
+  height: 14px;
+  margin-left: -4px;
+  background: var(--ui-blue);
 }
-.actions-safety-text { display: none; }
 
-/* ---- Privacy: P1 (empty state) + P2 (toast) + P3 (switch) ----
-   P1 and P2 are deliberately wider than the column they sit in, so they
-   run past the section's normal edge and get cut by .protection-figure's
-   overflow: hidden — a real bleed, not just a missing border. ---- */
+/* ---- Clip rows ---- */
 
-.protection-figure {
+.ui-list { display: flex; flex-direction: column; gap: 3px; }
+.ui-list-tight { gap: 2px; }
+
+.ui-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+  padding: 9px 11px;
+  border-radius: 10px;
+}
+.ui-row[data-state='selected'] { background: var(--ui-fill-strong); }
+.ui-row[data-state='fresh'] { background: var(--ui-fill); }
+
+.ui-tile {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  background: rgba(63, 157, 255, 0.16);
+  color: var(--ui-blue);
+}
+.ui-tile[data-tone='green'] { background: rgba(55, 207, 94, 0.16); color: var(--ui-green); }
+.ui-tile[data-tone='violet'] { background: rgba(148, 144, 255, 0.18); color: var(--ui-violet); }
+
+.ui-row-text { display: block; min-width: 0; flex: 1 1 auto; }
+.ui-row-title {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+}
+.ui-row-meta {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 2px;
+  font-size: 11.5px;
+  color: var(--ui-ink-3);
+  white-space: nowrap;
+}
+.ui-row-meta i { font-style: normal; }
+.ui-row-copy { flex: 0 0 auto; color: var(--ui-ink-3); display: flex; }
+
+/* The fresh clip carries a routing mark: it is the one that just arrived. */
+.ui-row[data-state='fresh']::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 9px;
+  bottom: 9px;
+  width: 2px;
+  border-radius: 999px;
+  background: var(--ui-blue);
+  transform: scaleY(0);
+  transform-origin: 50% 0;
+}
+[data-enter='in'] .ui-row[data-state='fresh']::before {
+  transform: scaleY(1);
+  transition: transform 620ms var(--ease) 420ms;
+}
+
+/* ---- Close-up panes ---- */
+
+.ui-pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: 16px;
+  align-items: start;
+}
+.ui-pair-stack { grid-template-columns: minmax(0, 1fr); }
+
+.ui-pane {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--ui-line);
+  border-radius: var(--ui-r);
+  background: var(--ui-bg);
+  box-shadow: 0 18px 40px -24px rgba(0, 0, 0, 0.8);
+}
+.ui-pane-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 11px;
+}
+.ui-pane-head .ui-h-sm { min-width: 0; }
+.ui-count {
+  margin-left: auto;
+  font-size: 11.5px;
+  color: var(--ui-ink-3);
+  white-space: nowrap;
+}
+.ui-pane-head .ui-switch { margin-left: auto; }
+.ui-search + .ui-list { margin-top: 10px; }
+
+/* ---- Retrieval detail ---- */
+
+.ui-chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin-left: auto; }
+.ui-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--ui-fill);
+  font-size: 11.5px;
+  color: var(--ui-ink-2);
+  white-space: nowrap;
+}
+.ui-chip .ui-icon { width: 12px; height: 12px; }
+.ui-chip[data-tone='violet'] { background: rgba(148, 144, 255, 0.16); color: var(--ui-violet); }
+
+.ui-detail-body {
+  padding: 11px 12px;
+  border-radius: 9px;
+  background: var(--ui-fill);
+  font-size: 13.5px;
+  line-height: 1.45;
+}
+.ui-note {
+  margin-top: 10px;
+  padding: 11px 12px;
+  border-radius: 9px;
+  border: 1px solid var(--ui-line-soft);
+}
+.ui-note-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--ui-ink-3);
+}
+.ui-note p { margin-top: 5px; color: var(--ui-ink-2); line-height: 1.45; }
+.ui-foot { margin-top: 11px; font-size: 11.5px; color: var(--ui-ink-3); }
+
+/* ---- Actions ---- */
+
+.ui-action {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+  padding: 10px 11px;
+  border-radius: 10px;
+  background: var(--ui-fill);
+}
+.ui-steps { display: flex; flex-direction: column; gap: 2px; margin-top: 10px; }
+.ui-steps li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 8px 11px;
+  border-radius: 9px;
+  color: var(--ui-ink-2);
+}
+.ui-steps li > span:nth-child(2) { min-width: 0; flex: 1 1 auto; }
+.ui-step-num {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  border: 1px solid var(--ui-line);
+  font-size: 11px;
+  color: var(--ui-ink-3);
+}
+.ui-step-tag {
+  flex: 0 0 auto;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(55, 207, 94, 0.14);
+  font-size: 11px;
+  color: var(--ui-green);
+}
+.ui-review {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--ui-line-soft);
+}
+.ui-review-text {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  font-size: 12.5px;
+  color: var(--ui-ink-2);
+}
+.ui-btn {
+  margin-left: auto;
+  padding: 5px 14px;
+  border-radius: 999px;
+  background: var(--ui-fill-strong);
+  font-size: 12.5px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.ui-btn-quiet {
+  display: inline-block;
+  margin: 12px 0 0;
+  color: var(--ui-ink-2);
+}
+
+.ui-rules { display: flex; flex-direction: column; gap: 9px; }
+.ui-rules li {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  color: var(--ui-ink-2);
+  line-height: 1.4;
+}
+.ui-rules .ui-icon { margin-top: 1px; color: var(--ui-green); }
+
+/* ---- Protection ---- */
+
+.ui-pane-private { border-color: rgba(148, 144, 255, 0.28); }
+.ui-live {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ui-violet);
+}
+[data-enter='in'] .ui-live { animation: ui-live 2.6s var(--ease) infinite; }
+@keyframes ui-live {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+.ui-empty-title { font-size: 13.5px; font-weight: 650; }
+.ui-empty-body { margin-top: 6px; color: var(--ui-ink-2); line-height: 1.45; }
+
+.ui-row-locked { background: var(--ui-fill); }
+.ui-redacted {
+  width: 62%;
+  height: 9px;
+  border-radius: 999px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--ui-fill-strong) 0 9px,
+    transparent 9px 15px
+  );
+}
+.ui-redacted[data-short='true'] { width: 44%; }
+
+.ui-toast {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 12px;
+  padding: 10px 13px;
+  border-radius: 999px;
+  border: 1px solid var(--ui-line-soft);
+  background: var(--ui-chrome);
+  font-size: 12.5px;
+  color: var(--ui-ink-2);
+}
+.ui-toast-dot {
+  flex: 0 0 auto;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ui-green);
+}
+
+/* ==========================================================================
+   Stages — the ground each composition sits on. One geometry, one light.
+   ========================================================================== */
+
+.stage {
   position: relative;
   overflow: hidden;
-  padding-block: 24px;
+  border-radius: 22px;
+  padding: 26px;
+  background: linear-gradient(158deg, #202027 0%, #131317 52%, #0d0d10 100%);
 }
-.plate-privacy-switch {
-  width: 220px;
-  border-radius: 12px;
-  background: #141416;
+.stage::after {
+  /* A single soft key light from the top-left, so every composition on the
+     page is lit the same way. */
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 90% at 12% -10%, rgba(255, 255, 255, 0.09), transparent 62%);
 }
-.plate-privacy-empty {
-  width: 750px;
-  max-width: none;
-  margin: 28px calc(-1 * var(--gutter)) 28px auto;
-  border-radius: 12px;
-  border-right: none;
-  background: #141416;
+
+/* The hero window runs off the bottom of its stage: there is more workspace
+   below the fold, and the cut says so without faking a taller window. */
+.stage-hero {
+  border-radius: 22px 22px 0 0;
+  padding-bottom: 0;
 }
-.plate-privacy-toast {
-  width: 550px;
-  max-width: none;
-  margin-left: calc(-1 * var(--gutter) - 56px);
-  border-radius: 12px;
-  border-left: none;
-  background: #141416;
+.stage-hero .ui-window { border-radius: 14px 14px 0 0; }
+.stage-hero .ui-main { padding-bottom: 0; }
+
+/* The dark chapter gets a lifted ground so the panes stay distinct from the
+   section behind them; the light chapters get the standard stage. */
+.chapter-dark .stage {
+  background: linear-gradient(158deg, #232329 0%, #17171b 55%, #131317 100%);
+  border: 1px solid rgba(255, 255, 255, 0.07);
 }
 
 /* ---------- Hero ----------
-   Desktop split: copy left, product plate right. Mobile stacks copy above
-   a full-bleed image (see the max-width: 833px block below). */
+   Desktop split: copy left, the dominant product composition right. Mobile
+   stacks the copy above a full-bleed stage (see the max-width: 833px block). */
 
 .hero { padding: clamp(48px, 6vw, 84px) 0 0; }
+
+/* The hero window sizes itself against this column, not the viewport. */
+.hero-media {
+  min-width: 0;
+  container-type: inline-size;
+}
+
+/* The sidebar folds away instead of the window shrinking, so the row geometry
+   never has to change scale. What decides that is the width of the media
+   column itself — a product of the viewport, the hero grid ratio, the shell
+   cap and the gap — so it is asked of the column directly. A viewport
+   breakpoint cannot track those four values and would silently overflow the
+   window again the moment any one of them changed.
+
+   It starts hidden so a browser without container queries degrades to the
+   narrow framing rather than to an overflowing window; the query below must
+   therefore stay after this rule, since the two have equal specificity. */
+.stage-hero .ui-sidebar { display: none; }
+
+@container (min-width: 600px) {
+  .stage-hero .ui-sidebar { display: block; }
+}
 
 .hero-grid {
   display: grid;
@@ -452,32 +881,21 @@ h3 {
 .chapter-media,
 .chapter-media-left {
   width: 100%;
+  min-width: 0;
   margin-inline: auto;
 }
 
-/* Every plate gets one identical entrance: opacity + 16px translate, once,
-   no scale, no parallax. The container's own translate is switched off so
-   the two transforms never compound. */
-.chapter-media,
-.hero-stage.hero-stage { transform: none !important; will-change: auto !important; }
-
-.chapter-media .plate,
-.hero-stage .plate {
-  opacity: 0;
-  transform: translateY(16px);
-}
-[data-enter='in'] .plate {
-  opacity: 1;
-  transform: translateY(0);
-  transition:
-    opacity 420ms cubic-bezier(0.16, 1, 0.3, 1),
-    transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
-}
+/* The compositions have no hidden start state at all: they are painted in
+   place and the shared [data-enter] translate settles them. Nothing here is
+   gated on opacity, so a reader who never runs the observer still sees a
+   finished page rather than blank stages. */
 
 @media (prefers-reduced-motion: reduce) {
-  .chapter-media .plate,
-  .hero-stage .plate { transform: none; }
-  [data-enter='in'] .plate { transition: opacity 200ms linear !important; }
+  [data-enter='in'] .ui-row[data-state='fresh']::before {
+    transform: scaleY(1);
+    transition: none;
+  }
+  [data-enter='in'] .ui-live { animation: none; }
 }
 
 /* ---------- Conversion ---------- */
@@ -615,111 +1033,31 @@ h3 {
   .hero-grid .hero-cta { align-items: center; }
   .productivity-note { margin-inline: auto; }
 
-  /* Mobile gets its own crop set (§5 of art-direction.md), full-bleed edge
-     to edge. Overflow is clipped per-section so a bleeding plate can never
-     force a horizontal scrollbar. Plates are set to a fixed CSS width at
-     or above source-width/2 so they stay at native Retina density or
-     better — it is fine, and intended, for that width to exceed the
-     viewport and clip. */
+  /* Mobile keeps the identical token scale — text never shrinks and nothing
+     is zoomed. What changes is the framing: the stage goes full-bleed, the
+     window folds its sidebar away the way a real split view does (handled by
+     the container query above, not here), and the paired close-ups stack. */
 
-  .hero-stage,
-  .history-figure,
-  .actions-figure,
-  .protection-figure { overflow: hidden; }
-
-  /* H1-m: 850px source / 2 = 425px floor. Full-bleed to the viewport edge,
-     breaking out of .shell-wide's gutters with a negative-margin
-     compensation instead of inheriting the desktop stage padding. */
-  .hero-stage {
+  .stage {
     width: 100vw;
     margin-inline: calc(50% - 50vw);
-    aspect-ratio: auto;
     border-radius: 0;
-    background: none;
+    padding: 22px var(--gutter);
   }
-  .plate-hero {
-    width: 100%;
-    height: auto;
-    margin-inline: 0;
-    border-radius: 0;
-    border-inline: none;
-  }
-  .plate-hero img { width: 100%; height: auto; min-width: 425px; }
+  .stage-hero { padding-bottom: 0; }
+  .chapter-dark .stage { border-inline: none; }
 
-  .history-figure {
-    flex-direction: row;
-    gap: 0;
-    background: none;
-    padding: 0;
-    border-radius: 0;
-  }
-  .plate-history-list { display: none; }
-  .plate-history-sidebar {
-    /* Full 440px 2x sidebar crop rendered at a readable 220px or wider. */
-    width: 260px;
-    height: auto;
-    margin: 0 0 0 24px;
-    border-radius: 12px;
-  }
-
-  /* Both figures now clip at the true viewport edge instead of
-     .shell-wide's gutter — the gutter was stealing back the width the
-     bleed was supposed to reach. */
-  .actions-figure {
-    width: 100vw;
-    margin-inline: calc(50% - 50vw);
-    gap: 0;
-    background: #141416;
-    border-radius: 0;
-    padding: 24px 0;
-  }
-  .plate-actions-control {
-    /* A1-m: 874px source / 2 = 437px floor. */
-    width: 440px;
-    max-width: none;
-    border-radius: 0;
-    border-inline: none;
-  }
-  .plate-actions-safety { display: none; }
-  .actions-safety-text {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 20px;
-    padding: 0 var(--gutter);
-    list-style: none;
-    font-size: 0.9375rem;
-    line-height: 1.5;
-    /* .actions-figure now carries its own #141416 stage background on
-       mobile, so this text needs the dark-ground colour, not ink-2. */
-    color: var(--d-muted);
-  }
-
-  .protection-figure {
-    width: 100vw;
-    margin-inline: calc(50% - 50vw);
-    padding-block: 16px;
-  }
-  .plate-privacy-switch { display: none; }
-  .plate-privacy-empty {
-    /* P1-m: 773px source / 2 = 386.5px floor. */
-    width: 390px;
-    max-width: none;
-    margin: 0 0 20px auto;
-    border-radius: 0;
-    border-inline: none;
-  }
-  .plate-privacy-toast {
-    /* P2-m: 1100px source / 2 = 550px floor. The figure itself now starts
-       at the true viewport edge, so no extra negative margin is needed
-       to reach it. */
-    width: 550px;
-    max-width: none;
-    border-radius: 0;
-    border-inline: none;
-  }
+  .ui-main { padding: 14px 13px 0; }
+  .ui-pane { padding: 13px; }
+  .ui-pair { grid-template-columns: minmax(0, 1fr); gap: 13px; }
 
   .install-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 400px) {
+  /* Below this the two-line meta strip is what breaks first, so let it wrap
+     instead of forcing a horizontal overflow. */
+  .ui-row-meta { white-space: normal; }
 }
 
 @media (max-width: 560px) {

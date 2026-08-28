@@ -87,16 +87,8 @@ a { color: inherit; }
     transition-duration: 1ms !important;
     transition-delay: 0ms !important;
   }
-  [data-enter='ready'],
-  .chapter-media .plate,
-  .hero-stage .plate {
+  [data-enter='ready'] {
     transform: none !important;
     will-change: auto;
-  }
-  /* The blanket 1ms override above has higher importance than App.css's
-     component rule of the same specificity tier; restate it here so the
-     reduced-motion opacity fade is a genuine 200ms, not silently clipped. */
-  [data-enter='in'] .plate {
-    transition-duration: 200ms !important;
   }
 }
