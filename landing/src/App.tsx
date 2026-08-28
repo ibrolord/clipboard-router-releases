@@ -6,12 +6,13 @@ const APP = {
     'https://github.com/ibrolord/clipboard-router-releases/releases/download/v0.1.0/Clipboard-Router-0.1.0-arm64.zip',
   brew: 'brew install --cask ibrolord/tap/clipboard-router',
   sha: '44d4c15cee3d5f155bdad65089434a93dc19baf1fe03dd247db7f9d50046cda6',
-  issues: 'https://github.com/ibrolord/clipboard-router-releases/issues',
+  issues: 'https://github.com/ibrolord/clipboard-router/issues',
+  source: 'https://github.com/ibrolord/clipboard-router',
   privacy: 'https://github.com/ibrolord/clipboard-router-releases/blob/main/PRIVACY.md',
   support: 'https://github.com/ibrolord/clipboard-router-releases/blob/main/SUPPORT.md',
 } as const
 
-const TRUST_LINE = 'Free · macOS 14 Sonoma or later · Apple silicon · Version 0.1.0'
+const TRUST_LINE = 'Free and open source · macOS 14 Sonoma or later · Apple silicon · Version 0.1.0'
 const CHECKSUM_COMMAND = 'shasum -a 256 ~/Downloads/Clipboard-Router-0.1.0-arm64.zip'
 const asset = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`
 
@@ -363,6 +364,7 @@ function SiteNav() {
         </nav>
 
         <div className="nav-actions">
+          <a className="nav-source" href={APP.source}>Source</a>
           <a className="nav-download" href={APP.download}>Download</a>
           <BrewAction className="nav-brew" />
           <button
@@ -382,6 +384,7 @@ function SiteNav() {
         {NAV_LINKS.map(([href, label]) => (
           <a key={href} href={href} onClick={() => followLink(href)}>{label}</a>
         ))}
+        <a href={APP.source}>Source code</a>
         <a href="#download" onClick={() => followLink('#download')}>Download</a>
       </nav>
     </header>
@@ -396,10 +399,11 @@ function Hero() {
       <div className="shell-wide hero-grid">
         <div className="hero-copy">
           <p className="eyebrow">Clipboard Router for Mac</p>
-          <h1 id="hero-title">Everything you copy is ready when you need it.</h1>
+          <h1 id="hero-title">Work from your clipboard toward 20× productivity.</h1>
           <p className="hero-deck">
-            Clipboard Router keeps your clipboard searchable, turns repeated steps into workflows you
-            can review, and gives sensitive clips a safer place to go.
+            Clipboard Router keeps captured clips ready to reuse, turns repeated work into
+            reviewable automations, and protects sensitive clips, so you can finish more without
+            retracing steps or switching context.
           </p>
 
           <div className="hero-cta">
@@ -408,6 +412,10 @@ function Hero() {
           </div>
 
           <p className="trust">{TRUST_LINE}</p>
+          <p className="productivity-note">
+            The 20× goal applies to repetitive clipboard-heavy workflows where saved searches and
+            reviewed automations replace repeated app switching; results vary by workflow.
+          </p>
         </div>
 
         <Reveal className="hero-stage">
@@ -473,7 +481,7 @@ function App() {
         <section id="history" className="chapter chapter-light" aria-labelledby="history-title">
           <div className="shell-wide chapter-grid">
             <Reveal className="chapter-copy">
-              <h2 id="history-title">Find what you copied in a clean, local history.</h2>
+              <h2 id="history-title">Find captured work without doing it twice.</h2>
               <p>
                 Clipboard Router captures what you copy as you work and keeps it organized on your
                 Mac, so the snippet, link, or address you need is still there when you go looking
@@ -536,12 +544,12 @@ function App() {
               </ul>
             </Reveal>
             <Reveal className="chapter-copy" delay={90}>
-              <h2 id="actions-title">Turn repeated steps into actions you can review.</h2>
+              <h2 id="actions-title">Automate the work that starts with copy and paste.</h2>
               <p>
-                The work you repeat every day can become a reviewable step instead. Build custom
-                Actions that clean, extract, or reformat a clip, let Auto Organize file things by
-                rules you can preview before they apply and undo afterward, gather several clips
-                into a Paste Stack, and run the same pipelines from the bundled command-line tool.
+                Turn the work you repeat every day into a reviewable workflow. Custom Actions can
+                clean, extract, or reformat a clip; Auto Organize can file it using rules you preview
+                before they apply and undo afterward; Paste Stack can gather several clips into the
+                exact sequence you need; and the bundled command-line tool can run the same pipelines.
               </p>
               <p className="chapter-note">
                 Routing prepares a reviewed clip and opens the destination for you. You are still
@@ -556,7 +564,7 @@ function App() {
         <section id="protection" className="chapter chapter-dark on-dark" aria-labelledby="protection-title">
           <div className="shell-wide chapter-grid">
             <Reveal className="chapter-copy">
-              <h2 id="protection-title">Keep sensitive clips out of ordinary history.</h2>
+              <h2 id="protection-title">Move faster without losing control of sensitive content.</h2>
               <p>
                 Some of what you copy should not sit in a list for the rest of the week. Clipboard
                 Health looks for secret-like values in captured text, including text read out of
@@ -610,7 +618,7 @@ function App() {
         <section id="download" className="closer" aria-labelledby="closer-title">
           <div className="shell closer-inner">
             <img className="closer-icon" src={asset('product/icon.png')} alt="" width={72} height={72} loading="lazy" />
-            <h2 id="closer-title">All your clipboard work, captured, organized, and ready.</h2>
+            <h2 id="closer-title">Work from your clipboard and keep your momentum.</h2>
             <div className="hero-cta">
               <a className="btn" href={APP.download}>Download for Mac</a>
               <BrewAction className="link-action" />
@@ -667,6 +675,7 @@ function App() {
           <nav className="footer-links" aria-label="Resources">
             <a href={APP.privacy}>Privacy</a>
             <a href={APP.support}>Support</a>
+            <a href={APP.source}>Source code</a>
             <a href={APP.issues}>Open an issue</a>
           </nav>
           <p className="footer-note">

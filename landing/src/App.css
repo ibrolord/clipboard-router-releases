@@ -173,6 +173,7 @@ h3 {
   margin-left: 26px;
 }
 .nav-download,
+.nav-source,
 .nav-brew {
   font-size: 0.8125rem;
   white-space: nowrap;
@@ -180,6 +181,8 @@ h3 {
 }
 .nav-download { color: var(--blue); }
 .nav-download:hover { text-decoration: underline; }
+.nav-source { color: var(--ink-2); }
+.nav-source:hover { color: var(--ink); }
 .nav-brew { color: var(--ink-2); }
 .nav-brew:hover { color: var(--ink); }
 .nav-brew[data-state='copied'] { color: var(--blue); }
@@ -398,6 +401,14 @@ h3 {
   color: var(--muted);
 }
 
+.productivity-note {
+  max-width: 600px;
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
 /* ---------- Chapters ---------- */
 
 .chapter { padding: clamp(72px, 8vw, 120px) 0; }
@@ -583,6 +594,7 @@ h3 {
 @media (max-width: 833px) {
   .nav-links,
   .nav-download,
+  .nav-source,
   .nav-brew { display: none; }
   .nav-toggle { display: inline-flex; }
   .nav-actions { margin-left: auto; }
@@ -601,6 +613,7 @@ h3 {
   .hero-copy h1 { margin-inline: auto; }
   .hero-deck { margin-inline: auto; }
   .hero-grid .hero-cta { align-items: center; }
+  .productivity-note { margin-inline: auto; }
 
   /* Mobile gets its own crop set (§5 of art-direction.md), full-bleed edge
      to edge. Overflow is clipped per-section so a bleeding plate can never

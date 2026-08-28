@@ -4,13 +4,14 @@
 
 # Clipboard Router
 
-**A native macOS clipboard workspace that keeps your history on your Mac—and never sends a clip anywhere you didn't choose.**
+**Work from your clipboard toward 20× productivity without losing control of what you copy.**
 
 [![Latest release](https://img.shields.io/github/v/release/ibrolord/clipboard-router-releases?label=release&color=0a84ff)](https://github.com/ibrolord/clipboard-router-releases/releases/latest)
 ![macOS 14+](https://img.shields.io/badge/macOS-14%20Sonoma%2B-000000)
 ![Apple Silicon](https://img.shields.io/badge/arch-Apple%20Silicon-333333)
 ![Signed and notarized](https://img.shields.io/badge/Apple-signed%20%26%20notarized-2ea043)
 ![Free](https://img.shields.io/badge/price-free-2ea043)
+[![Open source](https://img.shields.io/badge/source-MIT-2ea043)](https://github.com/ibrolord/clipboard-router)
 
 **[Download v0.1.0](https://github.com/ibrolord/clipboard-router-releases/releases/download/v0.1.0/Clipboard-Router-0.1.0-arm64.zip)** · 8.6 MB · Apple Silicon
 
@@ -26,7 +27,13 @@ brew install --cask ibrolord/tap/clipboard-router
 
 ---
 
-## The clipboard remembers everything. It should earn that access.
+## Turn copied work into completed work
+
+Clipboard Router keeps captured clips ready to reuse, turns repeated work into reviewable
+automations, and protects sensitive clips, so you can finish more without retracing steps or
+switching context.
+
+## A clipboard manager can remember a lot. It should earn that access.
 
 Clipboard managers are useful precisely because they can see what you copy: code, links, addresses, unfinished messages, API keys, and sometimes things you never meant to keep.
 
@@ -91,7 +98,11 @@ The macOS pasteboard is shared. Other running applications may read it. Vault en
 
 Read the full **[privacy policy](PRIVACY.md)**.
 
-> **Transparency:** Clipboard Router is currently distributed as a closed-source binary. This repository contains releases, checksums, build-provenance manifests, documentation, and the public issue tracker—not the application source. What you can independently verify today is the exact download hash, Apple signature, hardened runtime, notarization ticket, bundle metadata, and published provenance record.
+> **Transparency:** Clipboard Router is open source under the MIT License. The complete Swift source,
+> tests, packaging scripts, contribution guide, and security policy are in the
+> **[source repository](https://github.com/ibrolord/clipboard-router)**. This repository remains the
+> distribution record for signed releases, checksums, build-provenance manifests, documentation,
+> and download verification.
 
 ## Install
 
@@ -164,9 +175,10 @@ For a manual installation, quit Clipboard Router and move **Clipboard Router.app
 
 ## Support
 
-Found a bug or have a use case this should handle? **[Open an issue](https://github.com/ibrolord/clipboard-router-releases/issues)**.
+Found a bug or have a use case this should handle? **[Open an issue](https://github.com/ibrolord/clipboard-router/issues)**.
 
 Include the Clipboard Router version, macOS version, Mac model, and reproduction steps. Never include clipboard contents, credentials, license keys, or other secrets.
 
 - [Support guide](SUPPORT.md)
 - [Privacy policy](PRIVACY.md)
+- [Source code](https://github.com/ibrolord/clipboard-router)
