@@ -1,0 +1,722 @@
+/* ==========================================================================
+   Clipboard Router — landing page
+   Quiet navigation, one dominant product window, alternating editorial
+   chapters, one dark protection chapter, one simple conversion section.
+   No decorative icons: the composition is carried by type, spacing, and real app captures.
+   ========================================================================== */
+
+.shell {
+  width: min(var(--shell), 100% - (var(--gutter) * 2));
+  margin-inline: auto;
+}
+.shell-wide {
+  width: min(var(--shell-wide), 100% - (var(--gutter) * 2));
+  margin-inline: auto;
+}
+
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 16px;
+  z-index: 90;
+  padding: 12px 18px;
+  border-radius: 8px;
+  background: var(--ink);
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+}
+.skip-link:focus { top: 12px; }
+
+/* main and the chapter sections receive programmatic focus (skip link, nav
+   links, hash navigation) — they keep the site's normal focus ring instead
+   of suppressing it, so keyboard and assistive-tech users can see where
+   focus landed. */
+
+/* ---------- Type ---------- */
+
+h1 {
+  font-size: clamp(2.125rem, 4.4vw, 3.5rem);
+  line-height: 1.07;
+  letter-spacing: -0.023em;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: clamp(1.75rem, 3.1vw, 2.75rem);
+  line-height: 1.1;
+  letter-spacing: -0.021em;
+  font-weight: 700;
+}
+
+h3 {
+  font-size: 1.0625rem;
+  line-height: 1.3;
+  letter-spacing: -0.012em;
+  font-weight: 650;
+}
+
+/* A composed, spatial reveal: content remains readable in both states and
+   only settles a short distance. Media gets a slower optical scale below. */
+[data-enter] { --enter-delay: 0ms; }
+[data-enter='ready'] {
+  transform: translate3d(0, 14px, 0);
+  will-change: transform;
+}
+[data-enter='in'] {
+  transform: translate3d(0, 0, 0);
+  transition: transform 640ms var(--ease) var(--enter-delay);
+}
+
+@keyframes menu-reveal {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ---------- Actions ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  padding: 0 26px;
+  border-radius: 980px;
+  background: var(--blue-fill);
+  color: #fff;
+  font-size: 1.0625rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  text-align: center;
+  transition: background-color 140ms linear;
+}
+.btn:hover { background: var(--blue-fill-hover); }
+
+.link-action {
+  color: var(--blue);
+  font-size: 1.0625rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  text-align: center;
+}
+.link-action:hover { text-decoration: underline; }
+
+.copy-btn {
+  align-self: flex-start;
+  min-height: 34px;
+  padding: 0 15px;
+  border-radius: 980px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink-2);
+  font-size: 0.875rem;
+  transition: border-color 140ms linear, color 140ms linear;
+}
+.copy-btn:hover { border-color: var(--ink); color: var(--ink); }
+.copy-btn[data-state='copied'] { border-color: var(--blue); color: var(--blue); }
+
+/* ---------- Navigation ---------- */
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: rgba(245, 245, 247, 0.8);
+  -webkit-backdrop-filter: saturate(1.8) blur(20px);
+  backdrop-filter: saturate(1.8) blur(20px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 160ms linear;
+}
+.nav[data-scrolled='true'] { border-bottom-color: var(--line-soft); }
+.nav[data-open='true'] { background: var(--bg); }
+
+.nav-inner {
+  width: min(var(--shell-wide), 100% - (var(--gutter) * 2));
+  margin-inline: auto;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.012em;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.brand img { border-radius: 6px; }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  margin-left: auto;
+}
+.nav-links a {
+  font-size: 0.8125rem;
+  color: var(--ink-2);
+  text-decoration: none;
+  transition: color 140ms linear;
+}
+.nav-links a:hover { color: var(--ink); }
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-left: 26px;
+}
+.nav-download,
+.nav-brew {
+  font-size: 0.8125rem;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.nav-download { color: var(--blue); }
+.nav-download:hover { text-decoration: underline; }
+.nav-brew { color: var(--ink-2); }
+.nav-brew:hover { color: var(--ink); }
+.nav-brew[data-state='copied'] { color: var(--blue); }
+
+.nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 44px;
+  min-height: 44px;
+  font-size: 0.8125rem;
+  color: var(--blue);
+}
+
+.nav-panel {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100dvh - 54px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 4px var(--gutter) 20px;
+  border-top: 1px solid var(--line-soft);
+  background: var(--bg);
+}
+.nav-panel[hidden] { display: none; }
+.nav-panel:not([hidden]) { animation: menu-reveal 220ms var(--ease) both; }
+.nav-panel a {
+  padding: 14px 2px;
+  font-size: 1.0625rem;
+  text-decoration: none;
+  border-bottom: 1px solid var(--line-soft);
+}
+.nav-panel a:last-child { border-bottom: 0; color: var(--blue); }
+
+/* Real Retina pixels, cropped into detail plates and bled off an edge —
+   never a floating full window, never shown at less than native density
+   halved to CSS pixels. See design/art-direction.md. */
+
+.plate {
+  display: block;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.plate picture { display: block; }
+.plate img { display: block; width: 100%; height: auto; }
+
+/* ---- Hero: H1, cut on the right and bottom against a plain mid-tone stage ---- */
+
+.hero-stage {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px 20px 0 0;
+  background: #141416;
+  aspect-ratio: 1299 / 740;
+}
+.plate-hero {
+  border: none;
+  height: 100%;
+}
+.plate-hero img {
+  width: 112%;
+  max-width: none;
+  height: 100%;
+  object-fit: cover;
+  object-position: top left;
+}
+
+/* Below ~1024px the hero column shrinks fast enough that the 1299px source
+   loses true Retina density. Floor the stage at half the source width
+   (649.5px) so the image never renders below native density; the stage's
+   own overflow: hidden clips whatever the split layout can't fit. */
+@media (min-width: 834px) {
+  .hero-stage { min-width: 649.5px; }
+}
+
+/* ---- History: R1 + R2, offset two-column figure on a mid-tone stage,
+   deliberately cut through the stage's bottom edge ---- */
+
+.history-figure {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  overflow: hidden;
+  background: #141416;
+  border-radius: 16px 16px 0 0;
+  padding: 32px 32px 0;
+}
+/* Natural half-density heights: 670x840 and 440x850 sources rendered at
+   335px/220px CSS width. Forcing a shorter box and cropping with
+   object-fit: cover hid the evidence this section exists to show — the
+   tenth history row and the lower Keep items — so height now simply
+   follows width at the source's own aspect ratio. */
+.plate-history-list {
+  width: 335px;
+  height: 420px;
+  flex: 0 0 auto;
+  border: none;
+}
+.plate-history-sidebar {
+  width: 220px;
+  height: 425px;
+  flex: 0 0 auto;
+  margin-top: 80px;
+  border: none;
+}
+
+/* ---- Actions: A1 control surface + A2 safety strip beneath it ---- */
+
+.actions-figure {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  overflow: hidden;
+  background: #141416;
+  border-radius: 16px;
+  padding: 32px;
+}
+.plate-actions-control {
+  width: 625px;
+  max-width: none;
+  border-radius: 14px;
+  border-right: none;
+  background: #141416;
+}
+.plate-actions-safety {
+  width: 625px;
+  max-width: none;
+  border-radius: 14px;
+  border-right: none;
+  background: #141416;
+}
+.actions-safety-text { display: none; }
+
+/* ---- Privacy: P1 (empty state) + P2 (toast) + P3 (switch) ----
+   P1 and P2 are deliberately wider than the column they sit in, so they
+   run past the section's normal edge and get cut by .protection-figure's
+   overflow: hidden — a real bleed, not just a missing border. ---- */
+
+.protection-figure {
+  position: relative;
+  overflow: hidden;
+  padding-block: 24px;
+}
+.plate-privacy-switch {
+  width: 220px;
+  border-radius: 12px;
+  background: #141416;
+}
+.plate-privacy-empty {
+  width: 750px;
+  max-width: none;
+  margin: 28px calc(-1 * var(--gutter)) 28px auto;
+  border-radius: 12px;
+  border-right: none;
+  background: #141416;
+}
+.plate-privacy-toast {
+  width: 550px;
+  max-width: none;
+  margin-left: calc(-1 * var(--gutter) - 56px);
+  border-radius: 12px;
+  border-left: none;
+  background: #141416;
+}
+
+/* ---------- Hero ----------
+   Desktop split: copy left, product plate right. Mobile stacks copy above
+   a full-bleed image (see the max-width: 833px block below). */
+
+.hero { padding: clamp(48px, 6vw, 84px) 0 0; }
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: minmax(300px, 0.86fr) minmax(0, 1.14fr);
+  align-items: center;
+  gap: clamp(32px, 5vw, 56px);
+}
+
+.hero-copy { text-align: left; }
+
+.eyebrow {
+  font-size: clamp(1rem, 1.4vw, 1.3125rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--blue);
+}
+
+.hero-copy h1 {
+  margin-top: 8px;
+  max-width: 17ch;
+  text-wrap: balance;
+}
+
+.hero-deck {
+  margin: 20px 0 0;
+  max-width: 50ch;
+  font-size: clamp(1.0625rem, 1.35vw, 1.3125rem);
+  line-height: 1.45;
+  letter-spacing: -0.008em;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+
+.hero-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  margin-top: 34px;
+}
+.hero-grid .hero-cta { align-items: flex-start; }
+
+.trust {
+  margin-top: 22px;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* ---------- Chapters ---------- */
+
+.chapter { padding: clamp(72px, 8vw, 120px) 0; }
+.chapter-light { background: var(--surface); }
+.chapter-tint { background: var(--bg); }
+.chapter-dark { background: var(--noir); color: var(--d-ink); }
+
+.chapter-grid {
+  display: grid;
+  grid-template-columns: minmax(300px, 0.78fr) minmax(0, 1.22fr);
+  gap: clamp(38px, 5vw, 64px);
+  align-items: center;
+}
+
+.chapter-grid-flip { grid-template-columns: minmax(0, 1.22fr) minmax(300px, 0.78fr); }
+
+.chapter-copy {
+  width: min(680px, 100%);
+  margin-inline: auto;
+}
+
+.chapter-copy h2 { max-width: 16ch; text-wrap: balance; }
+.chapter-copy p {
+  margin-top: 20px;
+  font-size: clamp(1rem, 1.15vw, 1.0625rem);
+  line-height: 1.6;
+  color: var(--ink-2);
+  max-width: 46ch;
+}
+.chapter-dark .chapter-copy p { color: var(--d-muted); }
+
+.chapter-note {
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  font-size: 0.9375rem !important;
+}
+.chapter-note-dark { border-top-color: var(--d-line); }
+
+/* Full-width frames keep native UI labels readable instead of turning the
+   product into a decorative thumbnail. */
+.chapter-media,
+.chapter-media-left {
+  width: 100%;
+  margin-inline: auto;
+}
+
+/* Every plate gets one identical entrance: opacity + 16px translate, once,
+   no scale, no parallax. The container's own translate is switched off so
+   the two transforms never compound. */
+.chapter-media,
+.hero-stage.hero-stage { transform: none !important; will-change: auto !important; }
+
+.chapter-media .plate,
+.hero-stage .plate {
+  opacity: 0;
+  transform: translateY(16px);
+}
+[data-enter='in'] .plate {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 420ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chapter-media .plate,
+  .hero-stage .plate { transform: none; }
+  [data-enter='in'] .plate { transition: opacity 200ms linear !important; }
+}
+
+/* ---------- Conversion ---------- */
+
+.closer {
+  background: var(--bg);
+  padding: clamp(72px, 8vw, 112px) 0 clamp(64px, 7vw, 96px);
+}
+.closer-inner { text-align: center; }
+.closer-icon { border-radius: 16px; }
+.closer h2 {
+  margin-top: 22px;
+  max-width: 25ch;
+  margin-inline: auto;
+  text-wrap: balance;
+}
+.closer .hero-cta { align-items: center; margin-top: 30px; }
+
+.install-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: clamp(56px, 6vw, 80px);
+}
+.install-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  min-width: 0;
+  padding: clamp(24px, 2.6vw, 32px);
+  border-radius: 16px;
+  background: var(--surface);
+}
+.install-block p {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+.cmd {
+  display: block;
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: var(--bg);
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  user-select: all;
+}
+.cmd-hash { color: var(--ink-2); }
+.cmd:focus { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+/* ---------- FAQ ---------- */
+
+.faq {
+  background: var(--surface);
+  padding: clamp(64px, 7vw, 100px) 0;
+}
+.faq h2 { max-width: 18ch; }
+.faq-list { margin-top: clamp(32px, 4vw, 48px); border-top: 1px solid var(--line-soft); }
+.faq-list details { border-bottom: 1px solid var(--line-soft); }
+/* The browser's own disclosure marker, kept inside the content flow so it
+   stays aligned with the column rather than hanging past its edge. */
+.faq-list summary {
+  display: list-item;
+  list-style-position: inside;
+  padding: 20px 0;
+  cursor: pointer;
+  font-size: 1.0625rem;
+  font-weight: 500;
+  letter-spacing: -0.011em;
+}
+.faq-list summary::marker { color: var(--muted); }
+.faq-list p {
+  padding: 0 44px 22px 0;
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: var(--ink-2);
+  max-width: 76ch;
+}
+
+/* ---------- Footer ---------- */
+
+.footer {
+  background: var(--bg);
+  padding: 40px 0 52px;
+  border-top: 1px solid var(--line-soft);
+}
+.footer-inner { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px; }
+.footer-brand { font-size: 0.8125rem; color: var(--muted); }
+.footer-links { display: flex; flex-wrap: wrap; gap: 22px; margin-left: auto; }
+.footer-links a {
+  font-size: 0.8125rem;
+  color: var(--ink-2);
+  text-decoration: none;
+}
+.footer-links a:hover { text-decoration: underline; }
+.footer-note {
+  width: 100%;
+  padding-top: 16px;
+  border-top: 1px solid var(--line-soft);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 833px) {
+  .nav-links,
+  .nav-download,
+  .nav-brew { display: none; }
+  .nav-toggle { display: inline-flex; }
+  .nav-actions { margin-left: auto; }
+
+  .chapter-grid,
+  .chapter-grid-flip {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 34px;
+  }
+  .chapter-grid-flip .chapter-copy { order: -1; }
+  .chapter-copy h2 { max-width: 22ch; }
+  .chapter-copy p { max-width: 60ch; }
+
+  .hero-grid { grid-template-columns: minmax(0, 1fr); }
+  .hero-copy { text-align: center; }
+  .hero-copy h1 { margin-inline: auto; }
+  .hero-deck { margin-inline: auto; }
+  .hero-grid .hero-cta { align-items: center; }
+
+  /* Mobile gets its own crop set (§5 of art-direction.md), full-bleed edge
+     to edge. Overflow is clipped per-section so a bleeding plate can never
+     force a horizontal scrollbar. Plates are set to a fixed CSS width at
+     or above source-width/2 so they stay at native Retina density or
+     better — it is fine, and intended, for that width to exceed the
+     viewport and clip. */
+
+  .hero-stage,
+  .history-figure,
+  .actions-figure,
+  .protection-figure { overflow: hidden; }
+
+  /* H1-m: 850px source / 2 = 425px floor. Full-bleed to the viewport edge,
+     breaking out of .shell-wide's gutters with a negative-margin
+     compensation instead of inheriting the desktop stage padding. */
+  .hero-stage {
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+    aspect-ratio: auto;
+    border-radius: 0;
+    background: none;
+  }
+  .plate-hero {
+    width: 100%;
+    height: auto;
+    margin-inline: 0;
+    border-radius: 0;
+    border-inline: none;
+  }
+  .plate-hero img { width: 100%; height: auto; min-width: 425px; }
+
+  .history-figure {
+    flex-direction: row;
+    gap: 0;
+    background: none;
+    padding: 0;
+    border-radius: 0;
+  }
+  .plate-history-list { display: none; }
+  .plate-history-sidebar {
+    /* Full 440px 2x sidebar crop rendered at a readable 220px or wider. */
+    width: 260px;
+    height: auto;
+    margin: 0 0 0 24px;
+    border-radius: 12px;
+  }
+
+  /* Both figures now clip at the true viewport edge instead of
+     .shell-wide's gutter — the gutter was stealing back the width the
+     bleed was supposed to reach. */
+  .actions-figure {
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+    gap: 0;
+    background: #141416;
+    border-radius: 0;
+    padding: 24px 0;
+  }
+  .plate-actions-control {
+    /* A1-m: 874px source / 2 = 437px floor. */
+    width: 440px;
+    max-width: none;
+    border-radius: 0;
+    border-inline: none;
+  }
+  .plate-actions-safety { display: none; }
+  .actions-safety-text {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+    padding: 0 var(--gutter);
+    list-style: none;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    /* .actions-figure now carries its own #141416 stage background on
+       mobile, so this text needs the dark-ground colour, not ink-2. */
+    color: var(--d-muted);
+  }
+
+  .protection-figure {
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+    padding-block: 16px;
+  }
+  .plate-privacy-switch { display: none; }
+  .plate-privacy-empty {
+    /* P1-m: 773px source / 2 = 386.5px floor. */
+    width: 390px;
+    max-width: none;
+    margin: 0 0 20px auto;
+    border-radius: 0;
+    border-inline: none;
+  }
+  .plate-privacy-toast {
+    /* P2-m: 1100px source / 2 = 550px floor. The figure itself now starts
+       at the true viewport edge, so no extra negative margin is needed
+       to reach it. */
+    width: 550px;
+    max-width: none;
+    border-radius: 0;
+    border-inline: none;
+  }
+
+  .install-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 560px) {
+  :root { --gutter: 18px; }
+
+  .hero-cta { align-self: stretch; }
+  .hero-cta .btn { width: 100%; }
+
+  .chapter-media,
+  .chapter-media-left { width: 100%; }
+
+  .footer-links { margin-left: 0; width: 100%; }
+}
