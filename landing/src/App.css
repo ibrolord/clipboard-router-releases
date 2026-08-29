@@ -920,7 +920,7 @@ h3 {
 
 .feature-row {
   display: grid;
-  grid-template-columns: minmax(0, 24ch) minmax(0, 1fr) 20ch;
+  grid-template-columns: minmax(0, 24ch) minmax(0, 1fr);
   gap: 6px clamp(24px, 3vw, 44px);
   align-items: start;
   padding: clamp(18px, 2.2vw, 24px) 0;
@@ -933,16 +933,6 @@ h3 {
   letter-spacing: -0.012em;
 }
 
-.feature-row-status {
-  grid-column: 3;
-  grid-row: 1;
-  justify-self: end;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  line-height: 1.45;
-  color: var(--muted);
-  text-align: right;
-}
 .feature-row-desc {
   grid-column: 2;
   grid-row: 1;
@@ -958,7 +948,6 @@ h3 {
     gap: 6px;
   }
   .feature-row-title,
-  .feature-row-status,
   .feature-row-desc {
     grid-column: 1;
     grid-row: auto;

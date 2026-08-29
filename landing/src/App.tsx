@@ -27,12 +27,6 @@ const NAV_LINKS = [
 
 type FeatureAvailability = 'Included' | 'Requires setup' | 'Engineering preview'
 
-const AVAILABILITY_SLUG: Record<FeatureAvailability, string> = {
-  Included: 'included',
-  'Requires setup': 'setup',
-  'Engineering preview': 'preview',
-}
-
 type Feature = readonly [title: string, availability: FeatureAvailability, description: string]
 type FeatureGroup = readonly [title: string, features: readonly Feature[]]
 
@@ -783,7 +777,7 @@ function App() {
           <div className="shell">
             <Reveal className="feature-index-head">
               <h2 id="features-title">Clipboard Router helps you find, reuse, organize, automate, protect, and share what you copy.</h2>
-              <p className="feature-index-intro">All 40 user-facing features in version {APP.version} are grouped below. Engineering previews are marked.</p>
+              <p className="feature-index-intro">All 40 user-facing features in version {APP.version} are grouped below.</p>
             </Reveal>
             <div className="feature-groups">
               {FEATURE_GROUPS.map(([groupTitle, features], groupIndex) => (
@@ -793,14 +787,9 @@ function App() {
                     {groupTitle}
                   </h3>
                   <ul className="feature-ledger" role="list">
-                    {features.map(([title, availability, description]) => (
+                    {features.map(([title, , description]) => (
                       <li className="feature-row" key={title}>
                         <h4 className="feature-row-title">{title}</h4>
-                        {availability === 'Engineering preview' && (
-                          <span className={`feature-row-status feature-row-status-${AVAILABILITY_SLUG[availability]}`}>
-                            {availability}
-                          </span>
-                        )}
                         <p className="feature-row-desc">{description}</p>
                       </li>
                     ))}
