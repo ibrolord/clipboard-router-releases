@@ -284,12 +284,6 @@ const FEATURE_GROUPS: readonly FeatureGroup[] = [
   ],
 ]
 
-const AVAILABILITY_LEGEND: readonly (readonly [FeatureAvailability, string])[] = [
-  ['Included', 'Available in version 0.1.0.'],
-  ['Requires setup', 'Needs permission, compatible hardware, or user-provided configuration.'],
-  ['Engineering preview', 'Present in this build, but not a supported version 0.1.0 release feature.'],
-]
-
 const faqs: readonly (readonly [string, string])[] = [
   [
     'Which Macs can run Clipboard Router?',
@@ -789,19 +783,8 @@ function App() {
           <div className="shell">
             <Reveal className="feature-index-head">
               <h2 id="features-title">Clipboard Router helps you find, reuse, organize, automate, protect, and share what you copy.</h2>
-              <p className="feature-index-intro">This is the complete user-facing feature inventory for version {APP.version}. Availability labels distinguish features that work locally, features that need permission or compatible hardware, and engineering surfaces that still require external production proof.</p>
+              <p className="feature-index-intro">All 40 user-facing features in version {APP.version} are grouped below. Only features that need additional setup or remain engineering previews are marked.</p>
             </Reveal>
-            <dl className="feature-legend" role="list">
-              {AVAILABILITY_LEGEND.map(([label, meaning]) => (
-                <div className="feature-legend-item" role="listitem" key={label}>
-                  <dt>
-                    <span className={`availability-dot availability-dot-${AVAILABILITY_SLUG[label]}`} aria-hidden="true" />
-                    {label}
-                  </dt>
-                  <dd>{meaning}</dd>
-                </div>
-              ))}
-            </dl>
             <div className="feature-groups">
               {FEATURE_GROUPS.map(([groupTitle, features], groupIndex) => (
                 <Reveal className="feature-group" key={groupTitle} delay={Math.min(groupIndex * 40, 240)}>
@@ -812,13 +795,12 @@ function App() {
                   <ul className="feature-ledger" role="list">
                     {features.map(([title, availability, description]) => (
                       <li className="feature-row" key={title}>
-                        <div className="feature-row-head">
-                          <h4 className="feature-row-title">{title}</h4>
-                          <span className="feature-row-status">
-                            <span className={`availability-dot availability-dot-${AVAILABILITY_SLUG[availability]}`} aria-hidden="true" />
+                        <h4 className="feature-row-title">{title}</h4>
+                        {availability !== 'Included' && (
+                          <span className={`feature-row-status feature-row-status-${AVAILABILITY_SLUG[availability]}`}>
                             {availability}
                           </span>
-                        </div>
+                        )}
                         <p className="feature-row-desc">{description}</p>
                       </li>
                     ))}
