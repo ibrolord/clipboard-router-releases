@@ -943,8 +943,6 @@ h3 {
   color: var(--muted);
   text-align: right;
 }
-.feature-row-status-setup { color: #8a6506; }
-
 .feature-row-desc {
   grid-column: 2;
   grid-row: 1;

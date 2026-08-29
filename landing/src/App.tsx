@@ -783,7 +783,7 @@ function App() {
           <div className="shell">
             <Reveal className="feature-index-head">
               <h2 id="features-title">Clipboard Router helps you find, reuse, organize, automate, protect, and share what you copy.</h2>
-              <p className="feature-index-intro">All 40 user-facing features in version {APP.version} are grouped below. Only features that need additional setup or remain engineering previews are marked.</p>
+              <p className="feature-index-intro">All 40 user-facing features in version {APP.version} are grouped below. Engineering previews are marked.</p>
             </Reveal>
             <div className="feature-groups">
               {FEATURE_GROUPS.map(([groupTitle, features], groupIndex) => (
@@ -796,7 +796,7 @@ function App() {
                     {features.map(([title, availability, description]) => (
                       <li className="feature-row" key={title}>
                         <h4 className="feature-row-title">{title}</h4>
-                        {availability !== 'Included' && (
+                        {availability === 'Engineering preview' && (
                           <span className={`feature-row-status feature-row-status-${AVAILABILITY_SLUG[availability]}`}>
                             {availability}
                           </span>
