@@ -21,8 +21,60 @@ const NAV_LINKS = [
   ['#history', 'History'],
   ['#actions', 'Actions'],
   ['#protection', 'Protection'],
+  ['#features', 'Features'],
   ['#faq', 'FAQ'],
 ] as const
+
+const FEATURES: readonly (readonly [string, string])[] = [
+  [
+    'Searchable clipboard history',
+    'Capture text, URLs, rich text, images, and file references, then search their content and context by source app, domain, type, or date.',
+  ],
+  [
+    'Menu-bar workflow and Quick Paste',
+    'Reach recent clips, Quick Paste, notes, and the full library from the menu bar without keeping another Dock app open.',
+  ],
+  [
+    'Saved clips, notes, and folders',
+    'Promote a clip out of ordinary history when it matters, add a note that records why you kept it, and group related clips into folders you can return to later.',
+  ],
+  [
+    'Smart Views',
+    'Save a search you rely on as a Smart View, so a filtered slice of your history stays one click away instead of being retyped every time you need it.',
+  ],
+  [
+    'Actions and Paste Stack',
+    'Custom Actions clean, extract, or reformat a clip through steps you review before they run, and Paste Stack lets you gather several clips and paste them in the exact sequence you need.',
+  ],
+  [
+    'Auto Organize',
+    'Deterministic local rules can organize clips by type, domain, source app, and other bounded signals after you preview the changes, with undo available afterward.',
+  ],
+  [
+    'Clipboard Health',
+    'Captured text, including text read out of images, is checked for secret-like values and held for your review instead of being filed into history normally.',
+  ],
+  [
+    'Private Session',
+    'Turn on a Private Session and new clips stay in memory only until you clear or end it, so nothing from that stretch of work ever reaches your history.',
+  ],
+  [
+    'Vault',
+    'Vault is the encrypted store for clips that need to stay hidden until you authenticate, separate from the ordinary history that is local but not Vault-encrypted.',
+  ],
+  [
+    'Portable Base64 and recipient-key encrypted sharing',
+    'Base64 gives you a portable, reversible encoding for moving a clip between tools, while recipient-key sharing is the encrypted option, protecting a clip for one intended recipient with replay protection.',
+  ],
+  [
+    'Native macOS app experience',
+    'Use keyboard shortcuts, drag-and-drop organization, and a three-column library in a native app signed and notarized for macOS 14 Sonoma or later on Apple silicon.',
+  ],
+  [
+    'Bundled cr CLI',
+    'The bundled cr command-line tool runs version-matched analyze and transform pipelines from Terminal, and it does not change your PATH unless you export it yourself.',
+  ],
+]
 
 const faqs: readonly (readonly [string, string])[] = [
   [
@@ -515,6 +567,27 @@ function App() {
                 <ProtectionPane />
               </Figure>
             </Reveal>
+          </div>
+        </section>
+
+        {/* Feature index */}
+        <section id="features" className="feature-index" aria-labelledby="features-title">
+          <div className="shell">
+            <Reveal className="feature-index-head">
+              <h2 id="features-title">Clipboard Router supports the whole workflow around copied content.</h2>
+              <p className="feature-index-intro">You can capture and retrieve what you copy, organize and automate repeated work, and protect or share sensitive clips without giving up control.</p>
+            </Reveal>
+            <ol className="feature-ledger" role="list">
+              {FEATURES.map(([title, description], index) => (
+                <li key={title}>
+                  <Reveal className="feature-row" delay={Math.min(index * 30, 240)}>
+                    <span className="feature-row-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                    <h3 className="feature-row-title">{title}</h3>
+                    <p className="feature-row-desc">{description}</p>
+                  </Reveal>
+                </li>
+              ))}
+            </ol>
           </div>
         </section>
 

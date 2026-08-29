@@ -876,6 +876,61 @@ h3 {
 }
 .chapter-note-dark { border-top-color: var(--d-line); }
 
+/* ---------- Feature index ---------- */
+
+.feature-index { background: var(--surface); padding: clamp(72px, 8vw, 120px) 0; }
+
+.feature-index-head { max-width: 640px; }
+.feature-index-head h2 { text-wrap: balance; }
+.feature-index-intro {
+  margin-top: 18px;
+  max-width: 60ch;
+  color: var(--ink-2);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+}
+
+.feature-ledger {
+  margin-top: clamp(32px, 4vw, 48px);
+  border-top: 1px solid var(--line);
+}
+
+.feature-row {
+  display: grid;
+  grid-template-columns: 3.5ch minmax(0, 26ch) minmax(0, 1fr);
+  gap: 4px clamp(20px, 3vw, 48px);
+  align-items: baseline;
+  padding: clamp(20px, 2.6vw, 28px) 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.feature-row-index {
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+}
+
+.feature-row-title {
+  font-size: 1.0625rem;
+  letter-spacing: -0.012em;
+}
+
+.feature-row-desc {
+  grid-column: 3;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--ink-2);
+  max-width: 62ch;
+}
+
+@media (max-width: 700px) {
+  .feature-row {
+    grid-template-columns: 3.5ch minmax(0, 1fr);
+  }
+  .feature-row-desc { grid-column: 2; margin-top: 6px; }
+}
+
 /* Full-width frames keep native UI labels readable instead of turning the
    product into a decorative thumbnail. */
 .chapter-media,
