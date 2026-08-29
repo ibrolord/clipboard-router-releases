@@ -645,6 +645,10 @@ function Hero() {
 /* ------------------------------------------------------------------ */
 
 function App() {
+  const [openFeatureGroups, setOpenFeatureGroups] = useState<Set<number>>(
+    () => new Set(FEATURE_GROUPS.map((_, index) => index)),
+  )
+
   useEffect(() => {
     const syncHashTarget = () => {
       const rawID = window.location.hash.slice(1)
@@ -780,22 +784,52 @@ function App() {
               <p className="feature-index-intro">All 40 user-facing features in version {APP.version} are grouped below.</p>
             </Reveal>
             <div className="feature-groups">
-              {FEATURE_GROUPS.map(([groupTitle, features], groupIndex) => (
-                <Reveal className="feature-group" key={groupTitle} delay={Math.min(groupIndex * 40, 240)}>
-                  <h3 className="feature-group-title">
-                    <span className="feature-group-index" aria-hidden="true">{String(groupIndex + 1).padStart(2, '0')}</span>
-                    {groupTitle}
-                  </h3>
-                  <ul className="feature-ledger" role="list">
-                    {features.map(([title, , description]) => (
-                      <li className="feature-row" key={title}>
-                        <h4 className="feature-row-title">{title}</h4>
-                        <p className="feature-row-desc">{description}</p>
-                      </li>
-                    ))}
-                  </ul>
-                </Reveal>
-              ))}
+              {FEATURE_GROUPS.map(([groupTitle, features], groupIndex) => {
+                const isOpen = openFeatureGroups.has(groupIndex)
+                const panelID = `feature-group-${groupIndex + 1}`
+
+                return (
+                  <Reveal className="feature-group" key={groupTitle} delay={Math.min(groupIndex * 40, 240)}>
+                    <h3 className="feature-group-title">
+                      <button
+                        className="feature-group-toggle"
+                        type="button"
+                        aria-expanded={isOpen}
+                        aria-controls={panelID}
+                        onClick={() => {
+                          setOpenFeatureGroups((current) => {
+                            const next = new Set(current)
+                            if (next.has(groupIndex)) next.delete(groupIndex)
+                            else next.add(groupIndex)
+                            return next
+                          })
+                        }}
+                      >
+                        <span className="feature-group-index" aria-hidden="true">
+                          {String(groupIndex + 1).padStart(2, '0')}
+                        </span>
+                        <span className="feature-group-name">{groupTitle}</span>
+                        <svg
+                          className="feature-group-chevron"
+                          viewBox="0 0 16 16"
+                          aria-hidden="true"
+                          focusable="false"
+                        >
+                          <path d="M3.5 6 8 10.5 12.5 6" />
+                        </svg>
+                      </button>
+                    </h3>
+                    <ul id={panelID} className="feature-ledger" role="list" hidden={!isOpen}>
+                      {features.map(([title, , description]) => (
+                        <li className="feature-row" key={title}>
+                          <h4 className="feature-row-title">{title}</h4>
+                          <p className="feature-row-desc">{description}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  </Reveal>
+                )
+              })}
             </div>
           </div>
         </section>
