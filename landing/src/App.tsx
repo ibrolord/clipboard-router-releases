@@ -25,55 +25,269 @@ const NAV_LINKS = [
   ['#faq', 'FAQ'],
 ] as const
 
-const FEATURES: readonly (readonly [string, string])[] = [
+type FeatureAvailability = 'Included' | 'Requires setup' | 'Engineering preview'
+
+const AVAILABILITY_SLUG: Record<FeatureAvailability, string> = {
+  Included: 'included',
+  'Requires setup': 'setup',
+  'Engineering preview': 'preview',
+}
+
+type Feature = readonly [title: string, availability: FeatureAvailability, description: string]
+type FeatureGroup = readonly [title: string, features: readonly Feature[]]
+
+const FEATURE_GROUPS: readonly FeatureGroup[] = [
   [
-    'Searchable clipboard history',
-    'Capture text, URLs, rich text, images, and file references, then search their content and context by source app, domain, type, or date.',
+    'Capture and find',
+    [
+      [
+        'Searchable clipboard history',
+        'Included',
+        'Capture plain text, URLs, RTF, HTML, images, and file references while preserving their original representations.',
+      ],
+      [
+        'Menu-bar Quick Paste',
+        'Included',
+        'Reach pinned and recent clips, preview them, copy them, or optionally paste into the app that was active before the menu opened.',
+      ],
+      [
+        'Advanced search filters',
+        'Included',
+        'Search by content, source app, domain, type, device, approximate location, secret category, date, folder, tag, or recent position.',
+      ],
+      [
+        'Smart Views',
+        'Included',
+        'Save, rename, pin, reorder, edit, and delete reusable searches that remain local.',
+      ],
+      [
+        'OCR, previews, and clip details',
+        'Included',
+        'Extract text from supported images locally and inspect thumbnails, provenance, dimensions, size, word counts, duplicate counts, and paste counts.',
+      ],
+      [
+        'Capture context',
+        'Requires setup',
+        'Optionally attach a local Mac label or a coarse location label; exact coordinates are never stored.',
+      ],
+      [
+        'App exclusions and pause controls',
+        'Included',
+        'Exclude installed or running apps from capture and pause or resume clipboard monitoring.',
+      ],
+    ],
   ],
   [
-    'Menu-bar workflow and Quick Paste',
-    'Reach recent clips, Quick Paste, notes, and the full library from the menu bar without keeping another Dock app open.',
+    'Save and organize',
+    [
+      [
+        'Saved clips and editable notes',
+        'Included',
+        'Save useful clips, create first-class notes, or turn eligible text and URLs into notes without changing the History source.',
+      ],
+      [
+        'Nested folders, tags, and drag-and-drop',
+        'Included',
+        'Organize saved material in unlimited nested folders and move items safely by menu or drag-and-drop.',
+      ],
+      [
+        'Bulk library actions',
+        'Included',
+        'Review multiple selections before saving, moving, tagging, pinning, unpinning, or exporting them.',
+      ],
+      [
+        'Auto Organize',
+        'Included',
+        'Create local rules based on type, domain, source app, detected entity, or safe regular expressions, then preview and undo changes.',
+      ],
+    ],
   ],
   [
-    'Saved clips, notes, and folders',
-    'Promote a clip out of ordinary history when it matters, add a note that records why you kept it, and group related clips into folders you can return to later.',
+    'Combine and automate',
+    [
+      [
+        'Combine Clips',
+        'Included',
+        'Gather several eligible clips into one reviewed piece of context.',
+      ],
+      [
+        'Paste Stack',
+        'Included',
+        'Queue several clips and paste them in the exact order you choose.',
+      ],
+      [
+        'Deterministic transforms',
+        'Included',
+        'Clean, extract, and reformat copied text through predictable local steps.',
+      ],
+      [
+        'Reviewed Custom Actions',
+        'Included',
+        'Build explicit tag, move, follow-up-note, enrichment, web, or app-handoff steps that wait for review.',
+      ],
+      [
+        'Folder triggers and durable recovery',
+        'Included',
+        'Run reversible local steps when items enter a folder and resume retry-safe work after relaunch without blindly repeating uncertain external actions.',
+      ],
+      [
+        'Archive export and macOS sharing',
+        'Included',
+        'Export reviewed material as a portable archive or use the standard macOS share sheet.',
+      ],
+    ],
   ],
   [
-    'Smart Views',
-    'Save a search you rely on as a Smart View, so a filtered slice of your history stays one click away instead of being retyped every time you need it.',
+    'Act across apps',
+    [
+      [
+        'Actionable links, emails, phone numbers, and dates',
+        'Included',
+        'Detect useful entities locally and offer explicit Open, Compose, Calling App, Save Contact, Calendar Draft, Research, and Find Related actions.',
+      ],
+      [
+        'Verified ChatGPT, Claude, and Codex routing',
+        'Included',
+        'Resolve the intended signed application before changing the clipboard and never silently substitute a website after launch failure.',
+      ],
+      [
+        'Contacts and Calendar drafts',
+        'Requires setup',
+        'Review every draft before granting permission or creating a system record.',
+      ],
+      [
+        'Salesforce and HubSpot connectors',
+        'Engineering preview',
+        'Review allowlisted fields, duplicates, retries, and reconciliation receipts before any CRM write.',
+      ],
+      [
+        'Live link previews',
+        'Included',
+        'Load a link preview only when requested and keep redirect, error, offline, and unsafe-action handling bounded.',
+      ],
+    ],
   ],
   [
-    'Actions and Paste Stack',
-    'Custom Actions clean, extract, or reformat a clip through steps you review before they run, and Paste Stack lets you gather several clips and paste them in the exact sequence you need.',
+    'Assistant and insert',
+    [
+      [
+        'On-device Assistant',
+        'Requires setup',
+        "Use Apple's Foundation Models on a supported macOS 26 Mac for clip-scoped drafting and analysis.",
+      ],
+      [
+        'Hosted Assistant',
+        'Engineering preview',
+        "Use an explicit bring-your-own API key stored in this Mac's Keychain; no request leaves the Mac until Send is pressed.",
+      ],
+      [
+        'Assistant workflows',
+        'Requires setup',
+        'Use multi-turn chat and presets for quick answers, enrichment, rewriting, formatting, follow-up drafts, and opt-in research while treating every result as an unverified draft.',
+      ],
+      [
+        'Insert Palette and aliases',
+        'Included',
+        'Insert saved clips or notes through local semicolon aliases without duplicating their contents.',
+      ],
+      [
+        'System-wide Text Expansion',
+        'Requires setup',
+        'Expand exact aliases after explicit Accessibility access, with secure-field blocking and immediate Escape restoration.',
+      ],
+    ],
   ],
   [
-    'Auto Organize',
-    'Deterministic local rules can organize clips by type, domain, source app, and other bounded signals after you preview the changes, with undo available afterward.',
+    'Protect sensitive content',
+    [
+      [
+        'Clipboard Health and quarantine',
+        'Included',
+        'Detect secret-like values across captured text and OCR, then keep, delete, or move eligible material to Vault after review.',
+      ],
+      [
+        'Private Session',
+        'Included',
+        'Keep new clips in memory only and destroy them when the session is cleared or ended.',
+      ],
+      [
+        'Vault',
+        'Included',
+        'Encrypt deliberately protected text, rich text, HTML, images, and bounded file-reference payloads and require authentication before reveal.',
+      ],
+      [
+        'Portable and encrypted sharing',
+        'Included',
+        'Use clearly labeled reversible Base64 for eligible portable content or recipient-key encryption with replay protection.',
+      ],
+    ],
   ],
   [
-    'Clipboard Health',
-    'Captured text, including text read out of images, is checked for secret-like values and held for your review instead of being filed into history normally.',
+    'Share and collaborate',
+    [
+      [
+        'iCloud saved-library sync',
+        'Engineering preview',
+        'Sync eligible saved clips and folders without syncing active history, Vault, quarantine, Private Sessions, or the Mac pasteboard.',
+      ],
+      [
+        'Collaborative folders and roles',
+        'Engineering preview',
+        'Share eligible saved folders with owner, editor, and viewer permissions after CloudKit identity and provenance checks pass.',
+      ],
+      [
+        'Visible sync status',
+        'Engineering preview',
+        'See per-item sync state and why a clip is local-only or ineligible.',
+      ],
+    ],
   ],
   [
-    'Private Session',
-    'Turn on a Private Session and new clips stay in memory only until you clear or end it, so nothing from that stretch of work ever reaches your history.',
+    'Built for macOS',
+    [
+      [
+        'Global shortcuts and multi-display placement',
+        'Included',
+        'Configure separate search and note shortcuts, detect conflicts, and open search on the display containing the pointer.',
+      ],
+      [
+        'Launch at Login',
+        'Requires setup',
+        'Start Clipboard Router with macOS after the user enables the system-managed login item.',
+      ],
+      [
+        'Native Mac experience',
+        'Included',
+        'Use keyboard shortcuts, drag-and-drop organization, a three-column library, and a signed and notarized Apple-silicon app for macOS 14 or later.',
+      ],
+      [
+        'Bundled cr command-line tool',
+        'Included',
+        'Run version-matched analyze and transform pipelines from Terminal without changing PATH unless the user explicitly exports the helper.',
+      ],
+    ],
   ],
   [
-    'Vault',
-    'Vault is the encrypted store for clips that need to stay hidden until you authenticate, separate from the ordinary history that is local but not Vault-encrypted.',
+    'Specialized workflows',
+    [
+      [
+        'Sales Workspaces',
+        'Included',
+        'Create a ready-made local research structure for organizing account, contact, and follow-up material.',
+      ],
+      [
+        'Developer Projects and Debug Bundles',
+        'Included',
+        'Group project clips, build reviewed Markdown debug context, save or share bundles, ask the Assistant, and hand work to an IDE.',
+      ],
+    ],
   ],
-  [
-    'Portable Base64 and recipient-key encrypted sharing',
-    'Base64 gives you a portable, reversible encoding for moving a clip between tools, while recipient-key sharing is the encrypted option, protecting a clip for one intended recipient with replay protection.',
-  ],
-  [
-    'Native macOS app experience',
-    'Use keyboard shortcuts, drag-and-drop organization, and a three-column library in a native app signed and notarized for macOS 14 Sonoma or later on Apple silicon.',
-  ],
-  [
-    'Bundled cr CLI',
-    'The bundled cr command-line tool runs version-matched analyze and transform pipelines from Terminal, and it does not change your PATH unless you export it yourself.',
-  ],
+]
+
+const AVAILABILITY_LEGEND: readonly (readonly [FeatureAvailability, string])[] = [
+  ['Included', 'Available in version 0.1.0.'],
+  ['Requires setup', 'Needs permission, compatible hardware, or user-provided configuration.'],
+  ['Engineering preview', 'Present in this build, but not a supported version 0.1.0 release feature.'],
 ]
 
 const faqs: readonly (readonly [string, string])[] = [
@@ -574,20 +788,44 @@ function App() {
         <section id="features" className="feature-index" aria-labelledby="features-title">
           <div className="shell">
             <Reveal className="feature-index-head">
-              <h2 id="features-title">Clipboard Router supports the whole workflow around copied content.</h2>
-              <p className="feature-index-intro">You can capture and retrieve what you copy, organize and automate repeated work, and protect or share sensitive clips without giving up control.</p>
+              <h2 id="features-title">Clipboard Router helps you find, reuse, organize, automate, protect, and share what you copy.</h2>
+              <p className="feature-index-intro">This is the complete user-facing feature inventory for version {APP.version}. Availability labels distinguish features that work locally, features that need permission or compatible hardware, and engineering surfaces that still require external production proof.</p>
             </Reveal>
-            <ol className="feature-ledger" role="list">
-              {FEATURES.map(([title, description], index) => (
-                <li key={title}>
-                  <Reveal className="feature-row" delay={Math.min(index * 30, 240)}>
-                    <span className="feature-row-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-                    <h3 className="feature-row-title">{title}</h3>
-                    <p className="feature-row-desc">{description}</p>
-                  </Reveal>
-                </li>
+            <dl className="feature-legend" role="list">
+              {AVAILABILITY_LEGEND.map(([label, meaning]) => (
+                <div className="feature-legend-item" role="listitem" key={label}>
+                  <dt>
+                    <span className={`availability-dot availability-dot-${AVAILABILITY_SLUG[label]}`} aria-hidden="true" />
+                    {label}
+                  </dt>
+                  <dd>{meaning}</dd>
+                </div>
               ))}
-            </ol>
+            </dl>
+            <div className="feature-groups">
+              {FEATURE_GROUPS.map(([groupTitle, features], groupIndex) => (
+                <Reveal className="feature-group" key={groupTitle} delay={Math.min(groupIndex * 40, 240)}>
+                  <h3 className="feature-group-title">
+                    <span className="feature-group-index" aria-hidden="true">{String(groupIndex + 1).padStart(2, '0')}</span>
+                    {groupTitle}
+                  </h3>
+                  <ul className="feature-ledger" role="list">
+                    {features.map(([title, availability, description]) => (
+                      <li className="feature-row" key={title}>
+                        <div className="feature-row-head">
+                          <h4 className="feature-row-title">{title}</h4>
+                          <span className="feature-row-status">
+                            <span className={`availability-dot availability-dot-${AVAILABILITY_SLUG[availability]}`} aria-hidden="true" />
+                            {availability}
+                          </span>
+                        </div>
+                        <p className="feature-row-desc">{description}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </Reveal>
+              ))}
+            </div>
           </div>
         </section>
 
