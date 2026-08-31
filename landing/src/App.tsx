@@ -13,14 +13,11 @@ const APP = {
   support: 'https://github.com/ibrolord/clipboard-router-releases/blob/main/SUPPORT.md',
 } as const
 
-const TRUST_LINE = 'Free and open source · macOS 14 Sonoma or later · Apple silicon · Version 0.1.0'
+const TRUST_LINE = 'Free and open source · macOS 14+ · Apple silicon'
 const CHECKSUM_COMMAND = 'shasum -a 256 ~/Downloads/Clipboard-Router-0.1.0-arm64.zip'
 const asset = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`
 
 const NAV_LINKS = [
-  ['#history', 'History'],
-  ['#actions', 'Actions'],
-  ['#protection', 'Protection'],
   ['#features', 'Features'],
   ['#faq', 'FAQ'],
 ] as const
@@ -37,37 +34,37 @@ const FEATURE_GROUPS: readonly FeatureGroup[] = [
       [
         'Searchable clipboard history',
         'Included',
-        'Capture plain text, URLs, RTF, HTML, images, and file references while preserving their original representations.',
+        'Capture text, URLs, RTF, HTML, images, and file references in their original forms.',
       ],
       [
         'Menu-bar Quick Paste',
         'Included',
-        'Reach pinned and recent clips, preview them, copy them, or optionally paste into the app that was active before the menu opened.',
+        'Preview or copy pinned and recent clips from the menu bar, or paste into the previously active app.',
       ],
       [
         'Advanced search filters',
         'Included',
-        'Search by content, source app, domain, type, device, approximate location, secret category, date, folder, tag, or recent position.',
+        'Search by content, app, domain, type, device, coarse location, secret category, date, folder, tag, or recency.',
       ],
       [
         'Smart Views',
         'Included',
-        'Save, rename, pin, reorder, edit, and delete reusable searches that remain local.',
+        'Save and manage reusable searches that stay on your Mac.',
       ],
       [
         'OCR, previews, and clip details',
         'Included',
-        'Extract text from supported images locally and inspect thumbnails, provenance, dimensions, size, word counts, duplicate counts, and paste counts.',
+        'Read image text locally and inspect previews, provenance, dimensions, size, word count, duplicates, and paste count.',
       ],
       [
         'Capture context',
         'Requires setup',
-        'Optionally attach a local Mac label or a coarse location label; exact coordinates are never stored.',
+        'Optionally add a Mac label or coarse location. Exact coordinates are never stored.',
       ],
       [
         'App exclusions and pause controls',
         'Included',
-        'Exclude installed or running apps from capture and pause or resume clipboard monitoring.',
+        'Exclude apps from capture or pause clipboard monitoring at any time.',
       ],
     ],
   ],
@@ -77,22 +74,22 @@ const FEATURE_GROUPS: readonly FeatureGroup[] = [
       [
         'Saved clips and editable notes',
         'Included',
-        'Save useful clips, create first-class notes, or turn eligible text and URLs into notes without changing the History source.',
+        'Save clips, create notes, or turn text and URLs into notes without changing History.',
       ],
       [
         'Nested folders, tags, and drag-and-drop',
         'Included',
-        'Organize saved material in unlimited nested folders and move items safely by menu or drag-and-drop.',
+        'Use unlimited nested folders and tags, then move items by menu or drag-and-drop.',
       ],
       [
         'Bulk library actions',
         'Included',
-        'Review multiple selections before saving, moving, tagging, pinning, unpinning, or exporting them.',
+        'Review a selection before saving, moving, tagging, pinning, or exporting it.',
       ],
       [
         'Auto Organize',
         'Included',
-        'Create local rules based on type, domain, source app, detected entity, or safe regular expressions, then preview and undo changes.',
+        'Preview local filing rules by type, domain, app, entity, or safe pattern, then undo changes.',
       ],
     ],
   ],
@@ -102,32 +99,32 @@ const FEATURE_GROUPS: readonly FeatureGroup[] = [
       [
         'Combine Clips',
         'Included',
-        'Gather several eligible clips into one reviewed piece of context.',
+        'Combine several eligible clips into one reviewed piece of context.',
       ],
       [
         'Paste Stack',
         'Included',
-        'Queue several clips and paste them in the exact order you choose.',
+        'Queue clips and paste them in the order you choose.',
       ],
       [
         'Deterministic transforms',
         'Included',
-        'Clean, extract, and reformat copied text through predictable local steps.',
+        'Clean, extract, and reformat copied text with predictable local steps.',
       ],
       [
         'Reviewed Custom Actions',
         'Included',
-        'Build explicit tag, move, follow-up-note, enrichment, web, or app-handoff steps that wait for review.',
+        'Build reviewed steps for tagging, moving, enrichment, web tasks, and app handoffs.',
       ],
       [
         'Folder triggers and durable recovery',
         'Included',
-        'Run reversible local steps when items enter a folder and resume retry-safe work after relaunch without blindly repeating uncertain external actions.',
+        'Run reversible local steps from folders and recover after relaunch without repeating uncertain external work.',
       ],
       [
         'Archive export and macOS sharing',
         'Included',
-        'Export reviewed material as a portable archive or use the standard macOS share sheet.',
+        'Export reviewed material as an archive or share it through macOS.',
       ],
     ],
   ],
@@ -137,27 +134,27 @@ const FEATURE_GROUPS: readonly FeatureGroup[] = [
       [
         'Actionable links, emails, phone numbers, and dates',
         'Included',
-        'Detect useful entities locally and offer explicit Open, Compose, Calling App, Save Contact, Calendar Draft, Research, and Find Related actions.',
+        'Turn detected links, emails, phone numbers, and dates into explicit actions.',
       ],
       [
         'Verified ChatGPT, Claude, and Codex routing',
         'Included',
-        'Resolve the intended signed application before changing the clipboard and never silently substitute a website after launch failure.',
+        'Confirm the signed destination app before changing the clipboard, with no silent website fallback.',
       ],
       [
         'Contacts and Calendar drafts',
         'Requires setup',
-        'Review every draft before granting permission or creating a system record.',
+        'Review drafts before granting permission or creating a contact or event.',
       ],
       [
         'Salesforce and HubSpot connectors',
         'Engineering preview',
-        'Review allowlisted fields, duplicates, retries, and reconciliation receipts before any CRM write.',
+        'Review allowed fields, duplicates, retries, and receipts before writing to Salesforce or HubSpot.',
       ],
       [
         'Live link previews',
         'Included',
-        'Load a link preview only when requested and keep redirect, error, offline, and unsafe-action handling bounded.',
+        'Load previews only when requested, with clear handling for redirects, errors, offline pages, and unsafe actions.',
       ],
     ],
   ],
@@ -167,17 +164,17 @@ const FEATURE_GROUPS: readonly FeatureGroup[] = [
       [
         'On-device Assistant',
         'Requires setup',
-        "Use Apple's Foundation Models on a supported macOS 26 Mac for clip-scoped drafting and analysis.",
+        'Draft and analyze clips with Apple Foundation Models on supported macOS 26 Macs.',
       ],
       [
         'Hosted Assistant',
         'Engineering preview',
-        "Use an explicit bring-your-own API key stored in this Mac's Keychain; no request leaves the Mac until Send is pressed.",
+        'Use your own Keychain-stored API key; nothing leaves the Mac before you press Send.',
       ],
       [
         'Assistant workflows',
         'Requires setup',
-        'Use multi-turn chat and presets for quick answers, enrichment, rewriting, formatting, follow-up drafts, and opt-in research while treating every result as an unverified draft.',
+        'Use chat and presets for answers, rewrites, formatting, drafts, enrichment, and opt-in research. Review every result.',
       ],
       [
         'Insert Palette and aliases',
@@ -187,7 +184,7 @@ const FEATURE_GROUPS: readonly FeatureGroup[] = [
       [
         'System-wide Text Expansion',
         'Requires setup',
-        'Expand exact aliases after explicit Accessibility access, with secure-field blocking and immediate Escape restoration.',
+        'Expand exact aliases after Accessibility access, block secure fields, and immediately restore the alias with Escape.',
       ],
     ],
   ],
@@ -197,22 +194,22 @@ const FEATURE_GROUPS: readonly FeatureGroup[] = [
       [
         'Clipboard Health and quarantine',
         'Included',
-        'Detect secret-like values across captured text and OCR, then keep, delete, or move eligible material to Vault after review.',
+        'Detect secret-like values in text and OCR, then review whether to keep, delete, or move them to Vault.',
       ],
       [
         'Private Session',
         'Included',
-        'Keep new clips in memory only and destroy them when the session is cleared or ended.',
+        'Keep new clips in memory, then destroy them when the session is cleared or ended.',
       ],
       [
         'Vault',
         'Included',
-        'Encrypt deliberately protected text, rich text, HTML, images, and bounded file-reference payloads and require authentication before reveal.',
+        'Encrypt selected text, rich text, HTML, images, and bounded file-reference payloads behind authentication.',
       ],
       [
         'Portable and encrypted sharing',
         'Included',
-        'Use clearly labeled reversible Base64 for eligible portable content or recipient-key encryption with replay protection.',
+        'Use clearly labeled reversible Base64 or recipient-key encryption with replay protection.',
       ],
     ],
   ],
@@ -222,17 +219,17 @@ const FEATURE_GROUPS: readonly FeatureGroup[] = [
       [
         'iCloud saved-library sync',
         'Engineering preview',
-        'Sync eligible saved clips and folders without syncing active history, Vault, quarantine, Private Sessions, or the Mac pasteboard.',
+        'Sync eligible saved clips and folders, never history, Vault, quarantine, Private Sessions, or the pasteboard.',
       ],
       [
         'Collaborative folders and roles',
         'Engineering preview',
-        'Share eligible saved folders with owner, editor, and viewer permissions after CloudKit identity and provenance checks pass.',
+        'Share eligible folders with owner, editor, and viewer roles after CloudKit identity and provenance checks.',
       ],
       [
         'Visible sync status',
         'Engineering preview',
-        'See per-item sync state and why a clip is local-only or ineligible.',
+        'See each item’s sync state and why it stays local.',
       ],
     ],
   ],
@@ -242,22 +239,22 @@ const FEATURE_GROUPS: readonly FeatureGroup[] = [
       [
         'Global shortcuts and multi-display placement',
         'Included',
-        'Configure separate search and note shortcuts, detect conflicts, and open search on the display containing the pointer.',
+        'Set separate search and note shortcuts, detect conflicts, and open search on the display under your pointer.',
       ],
       [
         'Launch at Login',
         'Requires setup',
-        'Start Clipboard Router with macOS after the user enables the system-managed login item.',
+        'Start Clipboard Router through the macOS-managed login item.',
       ],
       [
         'Native Mac experience',
         'Included',
-        'Use keyboard shortcuts, drag-and-drop organization, a three-column library, and a signed and notarized Apple-silicon app for macOS 14 or later.',
+        'Use a signed, notarized Apple-silicon app with shortcuts, drag-and-drop, and a three-column library.',
       ],
       [
         'Bundled cr command-line tool',
         'Included',
-        'Run version-matched analyze and transform pipelines from Terminal without changing PATH unless the user explicitly exports the helper.',
+        'Run matching analyze and transform pipelines from Terminal without changing PATH.',
       ],
     ],
   ],
@@ -267,12 +264,12 @@ const FEATURE_GROUPS: readonly FeatureGroup[] = [
       [
         'Sales Workspaces',
         'Included',
-        'Create a ready-made local research structure for organizing account, contact, and follow-up material.',
+        'Create a local structure for account, contact, and follow-up research.',
       ],
       [
         'Developer Projects and Debug Bundles',
         'Included',
-        'Group project clips, build reviewed Markdown debug context, save or share bundles, ask the Assistant, and hand work to an IDE.',
+        'Group project clips, build reviewed Markdown debug context, ask the Assistant, and hand bundles to an IDE.',
       ],
     ],
   ],
@@ -281,35 +278,35 @@ const FEATURE_GROUPS: readonly FeatureGroup[] = [
 const faqs: readonly (readonly [string, string])[] = [
   [
     'Which Macs can run Clipboard Router?',
-    'Version 0.1.0 runs on macOS 14 Sonoma or later, on Apple silicon. There is no Intel or universal build yet, and it is not currently available on the Mac App Store.',
+    'Version 0.1.0 runs on Apple-silicon Macs with macOS 14 or later. Intel and Mac App Store builds are not available.',
   ],
   [
     'Do I need an account to use it?',
-    'No. The local workspace needs no account, purchase, subscription, or license key, and this initial release is free.',
+    'No. The local workspace is free and needs no account, subscription, purchase, or license key.',
   ],
   [
     'What happens to the things I copy?',
-    'They stay on your Mac as local application data that you can search, save, annotate, and organize. The local workspace has no analytics transport. Optional features can transmit data only after you enable or invoke them, and the privacy terms of whatever service you send to then apply.',
+    'History, saved clips, and notes stay in local app data, and the local workspace sends no analytics. Data leaves your Mac only when you use a feature that sends it elsewhere.',
   ],
   [
     'Is everything in my history encrypted?',
-    'No, and the difference matters. Ordinary history, saved clips, and notes are local application data rather than Vault content. Vault is the separate store that is encrypted and requires authentication before a clip is revealed.',
+    'No. Ordinary history, saved clips, and notes are local but not Vault-encrypted. Vault encrypts selected clips and requires authentication to reveal them.',
   ],
   [
     'How is a Private Session different from deleting a clip?',
-    'A Private Session keeps new clips in memory only, and they are destroyed when you clear or end the session, so they never reach your history in the first place.',
+    'Private Sessions keep new clips in memory and destroy them when you clear or end the session, before they reach history.',
   ],
   [
     'Is sharing something as Base64 the same as encrypting it?',
-    'No. Base64 is encoding, not encryption, so anyone holding the string can decode it. Recipient-key sharing is the separate encrypted option, and it includes replay protection.',
+    'No. Anyone holding Base64 text can decode it. Recipient-key sharing is encrypted and includes replay protection.',
   ],
   [
     'Does Clipboard Router paste or send things for me?',
-    'No. It can prepare a reviewed clip and open the destination for you, but you are the one who pastes and presses Send. Accessibility-assisted paste is opt-in and only ever pastes into an app you picked.',
+    'Clipboard Router can prepare a clip and open its destination, but you paste and send it. Assisted paste works only when you enable it and choose the app.',
   ],
   [
     'Can I check the download before I run it?',
-    'Yes. The app is signed with an Apple Developer ID, notarized, and stapled, and every release ships a SHA-256 checksum and a build-provenance manifest you can verify yourself.',
+    'Yes. Each release is Developer ID signed, notarized, stapled, and published with a SHA-256 checksum and provenance manifest.',
   ],
 ]
 
@@ -612,9 +609,7 @@ function Hero() {
           <p className="eyebrow">Clipboard Router for Mac</p>
           <h1 id="hero-title">Work from your clipboard toward 20× productivity.</h1>
           <p className="hero-deck">
-            Clipboard Router keeps captured clips ready to reuse, turns repeated work into
-            reviewable automations, and protects sensitive clips, so you can finish more without
-            retracing steps or switching context.
+            Search everything you copy, turn repeated steps into automations, and keep sensitive clips encrypted so you never lose your flow.
           </p>
 
           <div className="hero-cta">
@@ -624,8 +619,7 @@ function Hero() {
 
           <p className="trust">{TRUST_LINE}</p>
           <p className="productivity-note">
-            The 20× goal applies to repetitive clipboard-heavy workflows where saved searches and
-            reviewed automations replace repeated app switching; results vary by workflow.
+            *Applies to repetitive clipboard tasks; results vary by workflow.
           </p>
         </div>
 
@@ -645,9 +639,7 @@ function Hero() {
 /* ------------------------------------------------------------------ */
 
 function App() {
-  const [openFeatureGroups, setOpenFeatureGroups] = useState<Set<number>>(
-    () => new Set(FEATURE_GROUPS.map((_, index) => index)),
-  )
+  const [openFeatureGroups, setOpenFeatureGroups] = useState<Set<number>>(() => new Set([0]))
 
   useEffect(() => {
     const syncHashTarget = () => {
@@ -693,15 +685,9 @@ function App() {
             <Reveal className="chapter-copy">
               <h2 id="history-title">Find captured work without doing it twice.</h2>
               <p>
-                Clipboard Router captures what you copy as you work and keeps it organized on your
-                Mac, so the snippet, link, or address you need is still there when you go looking
-                for it. You can search by content or by the context around it, and open any clip
-                with its full detail.
-              </p>
-              <p>
-                When something is worth more than a place in history, you can promote it into Saved,
-                add a Note that records why it mattered, group it into a Project, pin what you reach
-                for constantly, and keep a search you trust as a Smart View.
+                Search far beyond keywords—find text, links, images, and files by their content,
+                source app, or surrounding context. When a clip matters, promote it into Saved,
+                attach notes for why it was kept, or organize it with Projects and Smart Views.
               </p>
             </Reveal>
             <Reveal className="chapter-media" delay={90}>
@@ -729,15 +715,9 @@ function App() {
             <Reveal className="chapter-copy" delay={90}>
               <h2 id="actions-title">Automate the work that starts with copy and paste.</h2>
               <p>
-                Turn the work you repeat every day into a reviewable workflow. Custom Actions can
-                clean, extract, or reformat a clip; Auto Organize can file it using rules you preview
-                before they apply and undo afterward; Paste Stack can gather several clips into the
-                exact sequence you need; and the bundled command-line tool can run the same pipelines.
-              </p>
-              <p className="chapter-note">
-                Routing prepares a reviewed clip and opens the destination for you. You are still
-                the one who pastes and presses Send, and accessibility-assisted paste only runs when
-                you turn it on.
+                Save time with powerful, multi-step pipelines that trigger right from your clipboard. Clean
+                and extract data, auto-file with rule-based sorting, sequence multi-item pastes,
+                or route enriched context straight into apps like Claude, ChatGPT, and your workspace tools.
               </p>
             </Reveal>
           </div>
@@ -749,20 +729,11 @@ function App() {
             <Reveal className="chapter-copy">
               <h2 id="protection-title">Move faster without losing control of sensitive content.</h2>
               <p>
-                Some of what you copy should not sit in a list for the rest of the week. Clipboard
-                Health looks for secret-like values in captured text, including text read out of
-                images, and holds them for review instead of filing them normally.
-              </p>
-              <p>
-                A Private Session keeps new clips in memory only until you clear or end it, so they
-                never reach your history. Vault is the encrypted store that asks you to authenticate
-                before a clip is revealed, and recipient-key sharing encrypts a clip for one
-                intended recipient with replay protection.
-              </p>
-              <p className="chapter-note chapter-note-dark">
-                Two things worth stating plainly: ordinary history is local but is not Vault
-                encrypted, and Base64 is encoding, not encryption, because anyone holding the string
-                can decode it.
+                Protect your API keys, passwords, and private tokens from background scrapers and
+                rogue apps. Clipboard Health catches secrets automatically, Private Sessions leave
+                zero trace on your Mac, and Vault locks confidential clips. When you need to
+                collaborate, recipient-key encryption ensures only your intended recipient can
+                decrypt the clip—so your clipboard never becomes another source of a data leak.
               </p>
             </Reveal>
             <Reveal className="chapter-media" delay={90}>
@@ -780,8 +751,11 @@ function App() {
         <section id="features" className="feature-index" aria-labelledby="features-title">
           <div className="shell">
             <Reveal className="feature-index-head">
-              <h2 id="features-title">Clipboard Router helps you find, reuse, organize, automate, protect, and share what you copy.</h2>
-              <p className="feature-index-intro">All 40 user-facing features in version {APP.version} are grouped below.</p>
+              <h2 id="features-title">Every capability, built right into your Mac.</h2>
+              <p className="feature-index-intro">
+                From local OCR and quick-paste palettes to multi-step AI routing and encrypted sharing—explore
+                everything included in Clipboard Router out of the box.
+              </p>
             </Reveal>
             <div className="feature-groups">
               {FEATURE_GROUPS.map(([groupTitle, features], groupIndex) => {
@@ -805,10 +779,8 @@ function App() {
                           })
                         }}
                       >
-                        <span className="feature-group-index" aria-hidden="true">
-                          {String(groupIndex + 1).padStart(2, '0')}
-                        </span>
                         <span className="feature-group-name">{groupTitle}</span>
+                        <span className="feature-group-count">{features.length} features</span>
                         <svg
                           className="feature-group-chevron"
                           viewBox="0 0 16 16"
@@ -838,7 +810,7 @@ function App() {
         <section id="download" className="closer" aria-labelledby="closer-title">
           <div className="shell closer-inner">
             <img className="closer-icon" src={asset('product/icon.png')} alt="" width={72} height={72} loading="lazy" />
-            <h2 id="closer-title">Work from your clipboard and keep your momentum.</h2>
+            <h2 id="closer-title">Try it on the work you repeat most.</h2>
             <div className="hero-cta">
               <a className="btn" href={APP.download}>Download for Mac</a>
               <BrewAction className="link-action" />
@@ -850,8 +822,7 @@ function App() {
             <Reveal className="install-block" delay={90}>
               <h3>Install it</h3>
               <p>
-                Download the archive, unzip it, move Clipboard Router to your Applications folder,
-                and launch it from the menu bar. If you prefer Homebrew, install the cask instead.
+                Download and unzip the app, then move it to Applications. Or install the Homebrew cask.
               </p>
               <code className="cmd" id={BREW_COMMAND_ID} tabIndex={-1}>{APP.brew}</code>
               <CopyButton value={APP.brew} label="Copy command" describes="Homebrew command" />
@@ -860,9 +831,8 @@ function App() {
             <Reveal className="install-block">
               <h3>Verify it</h3>
               <p>
-                The app is signed with an Apple Developer ID, notarized, and stapled. Every release
-                also ships a SHA-256 checksum and a build-provenance manifest, so you can confirm
-                the download before you run it.
+                The app is Developer ID signed, notarized, and stapled. Compare the SHA-256 checksum
+                before opening it.
               </p>
               <code className="cmd">{CHECKSUM_COMMAND}</code>
               <code className="cmd cmd-hash">{APP.sha}</code>
@@ -875,11 +845,11 @@ function App() {
         <section id="faq" className="faq" aria-labelledby="faq-title">
           <div className="shell">
             <Reveal>
-              <h2 id="faq-title">Questions, answered plainly.</h2>
+              <h2 id="faq-title">Here’s what to know before you download.</h2>
             </Reveal>
             <Reveal className="faq-list" delay={80}>
-              {faqs.map(([question, answer], index) => (
-                <details key={question} open={index === 0}>
+              {faqs.map(([question, answer]) => (
+                <details key={question}>
                   <summary>{question}</summary>
                   <p>{answer}</p>
                 </details>
@@ -899,8 +869,7 @@ function App() {
             <a href={APP.issues}>Open an issue</a>
           </nav>
           <p className="footer-note">
-            When you report a bug, please leave out clipboard contents, credentials, and anything
-            else you would not want in a public thread.
+            Please keep clipboard contents and credentials out of bug reports.
           </p>
         </div>
       </footer>
