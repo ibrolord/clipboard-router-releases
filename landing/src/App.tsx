@@ -104,22 +104,22 @@ const FEATURE_GROUPS: readonly FeatureGroup[] = [
       [
         'Paste Stack',
         'Included',
-        'Queue clips and paste them in the order you choose.',
+        'Queue clips and copy them back to the system clipboard in order as you paste.',
       ],
       [
         'Deterministic transforms',
         'Included',
-        'Clean, extract, and reformat copied text with predictable local steps.',
+        'Trim whitespace, normalize line endings, change case, turn text into a Markdown quote or code block, pretty-print JSON, strip ANSI, or URL-decode.',
       ],
       [
         'Reviewed Custom Actions',
         'Included',
-        'Build reviewed steps for tagging, moving, enrichment, web tasks, and app handoffs.',
+        'Build reviewed steps for tagging, filing, follow-up notes, websites, signed apps, or on-device AI enrichment.',
       ],
       [
         'Folder triggers and durable recovery',
         'Included',
-        'Run reversible local steps from folders and recover after relaunch without repeating uncertain external work.',
+        'Run local tagging and filing when a clip enters a watched folder, and recover after relaunch without replaying uncertain external work.',
       ],
       [
         'Archive export and macOS sharing',
@@ -149,7 +149,7 @@ const FEATURE_GROUPS: readonly FeatureGroup[] = [
       [
         'Salesforce and HubSpot connectors',
         'Engineering preview',
-        'Review allowed fields, duplicates, retries, and receipts before writing to Salesforce or HubSpot.',
+        'Review allowed fields, duplicates, retries, and receipts before writing to a configured provider.',
       ],
       [
         'Live link previews',
@@ -169,7 +169,7 @@ const FEATURE_GROUPS: readonly FeatureGroup[] = [
       [
         'Hosted Assistant',
         'Engineering preview',
-        'Use your own Keychain-stored API key; nothing leaves the Mac before you press Send.',
+        'Bring a Keychain-stored provider key and review content before it leaves the Mac.',
       ],
       [
         'Assistant workflows',
@@ -209,7 +209,7 @@ const FEATURE_GROUPS: readonly FeatureGroup[] = [
       [
         'Portable and encrypted sharing',
         'Included',
-        'Use clearly labeled reversible Base64 or recipient-key encryption with replay protection.',
+        'Export eligible text or URLs as clearly labeled Base64, or encrypt them for a public key you verified out of band.',
       ],
     ],
   ],
@@ -219,17 +219,17 @@ const FEATURE_GROUPS: readonly FeatureGroup[] = [
       [
         'iCloud saved-library sync',
         'Engineering preview',
-        'Sync eligible saved clips and folders, never history, Vault, quarantine, Private Sessions, or the pasteboard.',
+        'Sync eligible saved clips and folders without syncing history, Vault, Private Sessions, quarantine, or pasteboard state.',
       ],
       [
         'Collaborative folders and roles',
         'Engineering preview',
-        'Share eligible folders with owner, editor, and viewer roles after CloudKit identity and provenance checks.',
+        'Share eligible folders with owner, editor, and viewer roles after identity and provenance checks.',
       ],
       [
         'Visible sync status',
         'Engineering preview',
-        'See each item’s sync state and why it stays local.',
+        'Show each saved item’s sync state and why it remains local.',
       ],
     ],
   ],
@@ -290,7 +290,7 @@ const faqs: readonly (readonly [string, string])[] = [
   ],
   [
     'Is everything in my history encrypted?',
-    'No. Ordinary history, saved clips, and notes are local but not Vault-encrypted. Vault encrypts selected clips and requires authentication to reveal them.',
+    'No. Ordinary history, saved clips, and notes are local but not Vault-encrypted. Vault encrypts selected clips and requires authentication to reveal them. Other Mac apps may still read plaintext while it is on the shared system pasteboard.',
   ],
   [
     'How is a Private Session different from deleting a clip?',
@@ -609,7 +609,8 @@ function Hero() {
           <p className="eyebrow">Clipboard Router for Mac</p>
           <h1 id="hero-title">Work from your clipboard toward 20× productivity.</h1>
           <p className="hero-deck">
-            Search everything you copy, turn repeated steps into automations, and keep sensitive clips encrypted so you never lose your flow.
+            Search captured clips, queue several items for ordered pasting, and run reviewed actions
+            when you choose, so you make fewer trips between apps.
           </p>
 
           <div className="hero-cta">
@@ -619,14 +620,14 @@ function Hero() {
 
           <p className="trust">{TRUST_LINE}</p>
           <p className="productivity-note">
-            *Applies to repetitive clipboard tasks; results vary by workflow.
+            The 20× target applies to repetitive clipboard work; results vary by workflow.
           </p>
         </div>
 
         <Reveal className="hero-media">
           <Figure
             className="stage stage-hero"
-            caption="An illustration of the Clipboard Router window: a sidebar holding History, Browse, Saved, Notes, Pinned Saved, iCloud Sync, Projects, Actions, Auto Organize, Clipboard Health, Vault, and Private Session, next to a searchable History list of example clips captured from Notes, Safari, Terminal, and Xcode."
+            caption="An illustration of the Clipboard Router window: a sidebar holding History, Browse, Saved, Notes, Pinned Saved, Projects, Actions, Auto Organize, Clipboard Health, Vault, and Private Session, next to a searchable History list of example clips captured from Notes, Safari, Terminal, and Xcode."
           >
             <WorkspaceWindow />
           </Figure>
@@ -707,7 +708,7 @@ function App() {
             <Reveal className="chapter-media chapter-media-left">
               <Figure
                 className="stage"
-                caption="A closer view of one example automation from the same workspace, named “Review and file product notes”: two steps that clean the clip and file it into the Launch 1.2 project, a result waiting for you to paste and send, and the safety rules that no scripts, arbitrary webhooks, or automatic sends are allowed, that folder triggers never run from sync and queue external steps for review, and that Vault and Private Session content can never run an action."
+                caption="A closer view of one example automation from the same workspace, named “Review and file product notes”: two reviewed steps, both marked ready, that move a saved clip to the Launch 1.2 folder and open a destination, plus safety rules that prohibit scripts, arbitrary webhooks, and automatic sends; prevent folder triggers from running through sync; queue external steps for review; and prevent Vault or Private Session content from running an action."
               >
                 <ActionsPane />
               </Figure>
@@ -715,9 +716,9 @@ function App() {
             <Reveal className="chapter-copy" delay={90}>
               <h2 id="actions-title">Automate the work that starts with copy and paste.</h2>
               <p>
-                Save time with powerful, multi-step pipelines that trigger right from your clipboard. Clean
-                and extract data, auto-file with rule-based sorting, sequence multi-item pastes,
-                or route enriched context straight into apps like Claude, ChatGPT, and your workspace tools.
+                Turn repetitive clipboard work into reviewed steps that file a saved clip, create a
+                follow-up note, or open a website or signed app. Run them yourself or when a clip
+                enters a watched folder, then use transforms and Paste Stack for the rest of the workflow.
               </p>
             </Reveal>
           </div>
@@ -729,11 +730,10 @@ function App() {
             <Reveal className="chapter-copy">
               <h2 id="protection-title">Move faster without losing control of sensitive content.</h2>
               <p>
-                Protect your API keys, passwords, and private tokens from background scrapers and
-                rogue apps. Clipboard Health catches secrets automatically, Private Sessions leave
-                zero trace on your Mac, and Vault locks confidential clips. When you need to
-                collaborate, recipient-key encryption ensures only your intended recipient can
-                decrypt the clip—so your clipboard never becomes another source of a data leak.
+                Clipboard Health holds secret-like values found in text and OCR-extracted text out
+                of ordinary history for review. Private Session keeps new clips in memory, and Vault
+                encrypts clips you choose behind authentication. For encrypted sharing, verify the
+                recipient’s public key through another channel.
               </p>
             </Reveal>
             <Reveal className="chapter-media" delay={90}>
@@ -751,10 +751,10 @@ function App() {
         <section id="features" className="feature-index" aria-labelledby="features-title">
           <div className="shell">
             <Reveal className="feature-index-head">
-              <h2 id="features-title">Every capability, built right into your Mac.</h2>
+              <h2 id="features-title">Explore Clipboard Router’s capabilities.</h2>
               <p className="feature-index-intro">
-                From local OCR and quick-paste palettes to multi-step AI routing and encrypted sharing—explore
-                everything included in Clipboard Router out of the box.
+                Browse the available features below. iCloud sync, CRM connectors, and hosted AI
+                appear only as engineering previews and are not available in this release.
               </p>
             </Reveal>
             <div className="feature-groups">
@@ -792,9 +792,14 @@ function App() {
                       </button>
                     </h3>
                     <ul id={panelID} className="feature-ledger" role="list" hidden={!isOpen}>
-                      {features.map(([title, , description]) => (
+                      {features.map(([title, availability, description]) => (
                         <li className="feature-row" key={title}>
-                          <h4 className="feature-row-title">{title}</h4>
+                          <div className="feature-row-label">
+                            <h4 className="feature-row-title">{title}</h4>
+                            {availability === 'Engineering preview' && (
+                              <span className="feature-row-status">Engineering preview</span>
+                            )}
+                          </div>
                           <p className="feature-row-desc">{description}</p>
                         </li>
                       ))}

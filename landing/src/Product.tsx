@@ -158,7 +158,6 @@ const SIDEBAR = [
       { icon: 'saved', label: 'Saved' },
       { icon: 'note', label: 'Notes' },
       { icon: 'pin', label: 'Pinned Saved' },
-      { icon: 'cloud', label: 'iCloud Sync' },
       { icon: 'projects', label: 'Projects' },
     ],
   },
@@ -238,7 +237,7 @@ export function WorkspaceWindow() {
           </div>
 
           <div className="ui-main-tools">
-            <SearchField placeholder="Search everything you have copied" />
+            <SearchField placeholder="Search captured clips" />
           </div>
 
           <div className="ui-list">
@@ -327,12 +326,12 @@ export function ActionsPane() {
         <ol className="ui-steps">
           <li>
             <span className="ui-step-num">1</span>
-            <span>Clean the clip and pull out the checklist lines.</span>
+            <span>Move the clip to the Launch 1.2 folder.</span>
             <span className="ui-step-tag">Ready</span>
           </li>
           <li>
             <span className="ui-step-num">2</span>
-            <span>File it into the Launch 1.2 project and open the destination.</span>
+            <span>Open the destination for review.</span>
             <span className="ui-step-tag">Ready</span>
           </li>
         </ol>
@@ -340,7 +339,7 @@ export function ActionsPane() {
         <div className="ui-review">
           <span className="ui-review-text">
             <Icon name="send" />
-            Prepared and waiting for you to paste and send.
+            Two steps are ready for your review.
           </span>
           <span className="ui-btn">Review</span>
         </div>

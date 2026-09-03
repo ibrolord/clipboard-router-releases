@@ -969,10 +969,27 @@ h3 {
   border-bottom: 1px solid var(--line-soft);
 }
 
+.feature-row-label {
+  grid-column: 1;
+  grid-row: 1;
+}
+
 .feature-row-title {
+  margin: 0;
   font-size: 1rem;
   line-height: 1.45;
   letter-spacing: -0.012em;
+}
+
+.feature-row-status {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 0.6875rem;
+  font-weight: 650;
+  letter-spacing: 0.055em;
+  line-height: 1.4;
+  text-transform: uppercase;
 }
 
 .feature-row-desc {
@@ -989,7 +1006,7 @@ h3 {
     grid-template-columns: minmax(0, 1fr);
     gap: 6px;
   }
-  .feature-row-title,
+  .feature-row-label,
   .feature-row-desc {
     grid-column: 1;
     grid-row: auto;
