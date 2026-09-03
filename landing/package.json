@@ -5,6 +5,7 @@
   "type": "module",
   "engines": { "node": ">=22.13.0" },
   "scripts": {
+    "capture:launch": "node scripts/capture-launch.mjs",
     "dev": "vite",
     "build": "vite build",
     "build:pages": "vite build && node scripts/prepare-pages.mjs",

@@ -1,0 +1,392 @@
+{
+  "schemaVersion": 3,
+  "generatedBy": "landing/scripts/capture-launch.mjs",
+  "renderer": {
+    "browser": "Google Chrome 152.0.7977.66",
+    "node": "v26.8.1",
+    "platform": "darwin",
+    "architecture": "arm64",
+    "deviceScaleFactor": 1,
+    "verificationRenders": 2
+  },
+  "sourceFiles": [
+    "landing/launch.html",
+    "landing/src/launch.tsx",
+    "landing/src/LaunchScene.tsx",
+    "landing/src/launch.css"
+  ],
+  "contentPolicy": "Synthetic example clips only; no General pasteboard or real user content is read.",
+  "exports": [
+    {
+      "id": "feature-hero",
+      "file": "reddit-swiftui-feature-hero-1600x900.png",
+      "width": 1600,
+      "height": 900,
+      "layout": "wide",
+      "bytes": 346231,
+      "sha256": "8c2b384d56fc8e268473916ccaf278b1ac08bb50c19b4aa5c2ed085d2f61ad73"
+    },
+    {
+      "id": "microlaunch-hero",
+      "file": "microlaunch-feature-hero-680x340.png",
+      "width": 680,
+      "height": 340,
+      "layout": "compact",
+      "bytes": 98577,
+      "sha256": "4943708058f46aa4eae73a5841756458294ab4e36c5ab5dca8fdc67b254d4787"
+    },
+    {
+      "id": "github-social-preview",
+      "file": "github-social-preview-1280x640.png",
+      "width": 1280,
+      "height": 640,
+      "layout": "social",
+      "bytes": 232550,
+      "sha256": "dd44f5443b13718739e280d1890b2f611258a8af77761c3df3bc6cb80208753f"
+    },
+    {
+      "id": "landing-social-card",
+      "file": "landing-social-card-1200x630.png",
+      "width": 1200,
+      "height": 630,
+      "layout": "social",
+      "bytes": 224281,
+      "sha256": "6b067bdc9f44f7de14c652eb19b2dd3a1687ce4752e54c6b154546c83f72aa64"
+    }
+  ],
+  "staticAssets": [
+    {
+      "id": "directory-icon",
+      "file": "landing/public/product/icon.png",
+      "width": 512,
+      "height": 512,
+      "bytes": 323559,
+      "sha256": "37ce078f4818d4fe739a3066f52ed9346be6f6c30da1363fe51be38cdb774a46"
+    }
+  ],
+  "existingAssetSets": [
+    {
+      "id": "mac-app-store-gallery",
+      "repository": "ibrolord/clipboard-router",
+      "manifest": "AppStore/screenshot-manifest.md",
+      "files": "five 1440x900 PNG screenshots"
+    }
+  ],
+  "publishedAliases": [
+    {
+      "sourceAsset": "landing-social-card",
+      "file": "landing/public/og.png",
+      "width": 1200,
+      "height": 630,
+      "bytes": 224281,
+      "sha256": "6b067bdc9f44f7de14c652eb19b2dd3a1687ce4752e54c6b154546c83f72aa64"
+    }
+  ],
+  "channelCoverage": [
+    {
+      "id": "show-hn",
+      "channel": "Hacker News / Show HN",
+      "delivery": "none",
+      "assets": [],
+      "note": "The submission surface is title plus URL or text."
+    },
+    {
+      "id": "reddit-macapps-app-pile",
+      "channel": "r/macapps App Pile",
+      "delivery": "none",
+      "assets": [],
+      "note": "The active placement is a comment, not an image post."
+    },
+    {
+      "id": "reddit-macosprogramming",
+      "channel": "r/macosprogramming",
+      "delivery": "image",
+      "assets": [
+        "feature-hero"
+      ]
+    },
+    {
+      "id": "reddit-swiftui",
+      "channel": "r/SwiftUI",
+      "delivery": "image",
+      "assets": [
+        "feature-hero"
+      ]
+    },
+    {
+      "id": "reddit-coolgithubprojects",
+      "channel": "r/coolgithubprojects",
+      "delivery": "image",
+      "assets": [
+        "feature-hero"
+      ]
+    },
+    {
+      "id": "reddit-sideproject",
+      "channel": "r/SideProject",
+      "delivery": "image",
+      "assets": [
+        "feature-hero"
+      ]
+    },
+    {
+      "id": "reddit-macos-developer-saturday",
+      "channel": "r/MacOS Developer Saturday",
+      "delivery": "image",
+      "assets": [
+        "feature-hero"
+      ]
+    },
+    {
+      "id": "macmenubar",
+      "channel": "MacMenuBar",
+      "delivery": "image",
+      "assets": [
+        "directory-icon",
+        "feature-hero"
+      ]
+    },
+    {
+      "id": "macapps-org",
+      "channel": "macapps.org",
+      "delivery": "none",
+      "assets": [],
+      "note": "The current submission form has no image field."
+    },
+    {
+      "id": "alternativeto",
+      "channel": "AlternativeTo",
+      "delivery": "image",
+      "assets": [
+        "directory-icon",
+        "feature-hero"
+      ]
+    },
+    {
+      "id": "macupdate",
+      "channel": "MacUpdate",
+      "delivery": "none",
+      "assets": [],
+      "note": "The current new-app form has no image upload field."
+    },
+    {
+      "id": "appaddict",
+      "channel": "AppAddict",
+      "delivery": "image",
+      "assets": [
+        "directory-icon"
+      ]
+    },
+    {
+      "id": "toolhunt",
+      "channel": "Toolhunt",
+      "delivery": "image",
+      "assets": [
+        "directory-icon",
+        "feature-hero"
+      ]
+    },
+    {
+      "id": "thriftmac",
+      "channel": "Thriftmac",
+      "delivery": "image",
+      "assets": [
+        "directory-icon",
+        "feature-hero"
+      ]
+    },
+    {
+      "id": "macstories",
+      "channel": "MacStories press pitch",
+      "delivery": "image",
+      "assets": [
+        "feature-hero",
+        "mac-app-store-gallery"
+      ]
+    },
+    {
+      "id": "9to5mac",
+      "channel": "9to5Mac press pitch",
+      "delivery": "image",
+      "assets": [
+        "feature-hero",
+        "mac-app-store-gallery"
+      ]
+    },
+    {
+      "id": "macrumors",
+      "channel": "MacRumors press pitch",
+      "delivery": "image",
+      "assets": [
+        "feature-hero",
+        "mac-app-store-gallery"
+      ]
+    },
+    {
+      "id": "awesome-mac",
+      "channel": "Awesome Mac",
+      "delivery": "none",
+      "assets": [],
+      "note": "README list contribution."
+    },
+    {
+      "id": "doesitarm",
+      "channel": "Does It ARM",
+      "delivery": "none",
+      "assets": [],
+      "note": "Structured compatibility contribution."
+    },
+    {
+      "id": "open-source-macos-apps",
+      "channel": "Open Source macOS Apps",
+      "delivery": "image",
+      "assets": [
+        "directory-icon",
+        "feature-hero"
+      ]
+    },
+    {
+      "id": "awesome-swift-macos-apps",
+      "channel": "Awesome Swift macOS Apps",
+      "delivery": "none",
+      "assets": [],
+      "note": "README list contribution."
+    },
+    {
+      "id": "clipboard-manager-comparison",
+      "channel": "Clipboard Manager Comparison",
+      "delivery": "none",
+      "assets": [],
+      "note": "Structured comparison form."
+    },
+    {
+      "id": "indie-hackers",
+      "channel": "Indie Hackers",
+      "delivery": "image",
+      "assets": [
+        "feature-hero"
+      ]
+    },
+    {
+      "id": "microlaunch",
+      "channel": "MicroLaunch",
+      "delivery": "image",
+      "assets": [
+        "directory-icon",
+        "microlaunch-hero"
+      ],
+      "note": "680x340 is the current UI-observed hero target."
+    },
+    {
+      "id": "peerlist",
+      "channel": "Peerlist",
+      "delivery": "image",
+      "assets": [
+        "directory-icon",
+        "feature-hero"
+      ]
+    },
+    {
+      "id": "launching-next",
+      "channel": "Launching Next",
+      "delivery": "image",
+      "assets": [
+        "directory-icon",
+        "feature-hero"
+      ]
+    },
+    {
+      "id": "opentosh",
+      "channel": "OpenTosh",
+      "delivery": "image",
+      "assets": [
+        "directory-icon",
+        "feature-hero"
+      ],
+      "note": "No public fixed dimensions are documented."
+    },
+    {
+      "id": "dev",
+      "channel": "DEV Community",
+      "delivery": "held",
+      "assets": [
+        "feature-hero"
+      ],
+      "note": "Prepared only if the channel becomes policy-compatible."
+    },
+    {
+      "id": "mac-app-store",
+      "channel": "Mac App Store",
+      "delivery": "existing",
+      "assets": [
+        "mac-app-store-gallery"
+      ]
+    },
+    {
+      "id": "homebrew",
+      "channel": "Homebrew",
+      "delivery": "none",
+      "assets": [],
+      "note": "Cask metadata has no image field."
+    },
+    {
+      "id": "github-readme",
+      "channel": "GitHub README",
+      "delivery": "image",
+      "assets": [
+        "directory-icon",
+        "feature-hero"
+      ]
+    },
+    {
+      "id": "github-social",
+      "channel": "GitHub repository social preview",
+      "delivery": "image",
+      "assets": [
+        "github-social-preview"
+      ]
+    },
+    {
+      "id": "github-pages",
+      "channel": "GitHub Pages / Open Graph",
+      "delivery": "image",
+      "assets": [
+        "landing-social-card"
+      ]
+    },
+    {
+      "id": "product-hunt",
+      "channel": "Product Hunt",
+      "delivery": "excluded",
+      "assets": [],
+      "note": "Explicitly excluded from this launch."
+    }
+  ],
+  "requirementsEvidence": [
+    {
+      "channel": "GitHub repository social preview",
+      "source": "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/customizing-your-repositorys-social-media-preview",
+      "rule": "1280x640 recommended; PNG, JPG, or GIF under 1 MB."
+    },
+    {
+      "channel": "AlternativeTo",
+      "source": "https://alternativeto.net/faq/",
+      "rule": "Square PNG or SVG at 280x280 or larger; transparent background suggested."
+    },
+    {
+      "channel": "Hacker News / Show HN",
+      "source": "https://news.ycombinator.com/showhn.html",
+      "rule": "No native image-upload field."
+    },
+    {
+      "channel": "Reddit organic posts",
+      "source": "https://support.reddithelp.com/hc/en-us/articles/360060422572-How-do-I-post-and-comment-on-Reddit",
+      "rule": "No fixed organic-post pixel dimensions are published."
+    },
+    {
+      "channel": "MicroLaunch",
+      "source": "UI-observed submission form",
+      "rule": "680x340 hero and square logo in the current submission flow."
+    }
+  ]
+}
